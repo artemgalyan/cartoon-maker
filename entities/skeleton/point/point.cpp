@@ -4,6 +4,7 @@ const QColor Point::PointColor("#F39C12");
 
 Point::Point(double x, double y, Point *parent) : QGraphicsObject(parent) {
   setPos(x, y);
+  setFlags(QGraphicsItem::ItemIsMovable);
 }
 
 QRectF Point::boundingRect() const {
@@ -14,6 +15,7 @@ void Point::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
   painter->save();
   QPen pen = this->GetStyle();
   painter->setPen(pen);
-  painter->drawEllipse(boundingRect());
+  painter->setBrush(QBrush(PointColor, Qt::SolidPattern));
+  painter->drawEllipse(Point::boundingRect());
   painter->restore();
 }
