@@ -10,7 +10,7 @@ class Point : public QGraphicsObject {
  public:
   const static QColor PointColor;
   const static int PaintRadius = 20;
-  Point(int x, int y, Point* parent = nullptr) : QGraphicsObject(parent) {
+  Point(double x, double y, Point* parent = nullptr) : QGraphicsObject(parent) {
     setPos(x, y);
   };
   [[nodiscard]] QRectF boundingRect() const override {
