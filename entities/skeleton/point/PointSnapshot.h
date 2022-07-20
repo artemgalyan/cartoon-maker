@@ -7,7 +7,7 @@
 struct PointSnapshot {
   double coord1;
   double coord2;
-  const bool isStaightMovement;
+  const bool isStraightMovement;
   explicit PointSnapshot(const MainPoint&);
   explicit PointSnapshot(const SidePoint&);
   static PointSnapshot CreateSnapshotOf(const Point* point);
