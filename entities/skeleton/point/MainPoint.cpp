@@ -2,6 +2,7 @@
 
 #include <QPen>
 #include <QColor>
+#include <QGraphicsSceneMouseEvent>
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
@@ -13,4 +14,12 @@ QPen MainPoint::GetStyle() const {
   pen.setColor(BorderColor);
   pen.setWidth(BorderWidth);
   return pen;
+}
+void MainPoint::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+  this->setPos(event->scenePos());
+}
+
+QRectF MainPoint::boundingRect() const {
+  double r = Point::PaintRadius + BorderWidth;
+  return {-r, -r, 2 * r, 2 * r};
 }

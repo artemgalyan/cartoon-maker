@@ -8,8 +8,11 @@ class MainPoint : public Point {
   const static QColor BorderColor;
   const static int BorderWidth = 5;
   explicit MainPoint(double x, double y);
+  [[nodiscard]] QRectF boundingRect() const override;
+ protected:
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
  private:
-  QPen GetStyle() const override;
+  [[nodiscard]] QPen GetStyle() const override;
 };
 
 #endif //CARTOON_MAKER_LOGIC_SKELETON_POINT_MAINPOINT_H_
