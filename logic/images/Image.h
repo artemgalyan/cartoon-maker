@@ -6,7 +6,7 @@
 
 class Image {
  public:
-  explicit Image(const QPixmap &image, const QPointF &offset);
+  explicit Image(QPixmap image, const QPointF &offset);
   [[nodiscard]] const QPixmap &GetImage() const;
   [[nodiscard]] QPointF GetOffset() const;
  private:

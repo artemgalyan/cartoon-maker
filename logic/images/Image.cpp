@@ -1,6 +1,8 @@
 #include "Image.h"
 
-Image::Image(const QPixmap &image, const QPointF &offset) : image_(image), offset_(offset) {}
+#include <utility>
+
+Image::Image(QPixmap image, const QPointF &offset) : image_(std::move(image)), offset_(offset) {}
 
 const QPixmap &Image::GetImage() const {
   return image_;
