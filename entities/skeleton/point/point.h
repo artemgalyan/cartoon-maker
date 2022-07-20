@@ -4,13 +4,15 @@
 #include <QGraphicsObject>
 #include <QPainter>
 #include <QPen>
+#include <QColor>
 
 class Point : public QGraphicsObject {
  public:
+  const static QColor PointColor;
+  const static int PaintRadius = 20;
   Point(int x, int y, Point* parent = nullptr) : QGraphicsObject(parent) {
     setPos(x, y);
   };
-  const static int PaintRadius = 20;
   [[nodiscard]] QRectF boundingRect() const override {
     return {-PaintRadius, -PaintRadius, 2 * PaintRadius, 2 * PaintRadius};
   }
@@ -24,5 +26,7 @@ class Point : public QGraphicsObject {
   }
   [[nodiscard]] virtual QPen GetStyle() const = 0;
 };
+
+const QColor Point::PointColor = QColor("#F39C12");
 
 #endif //CARTOON_MAKER_LOGIC_SKELETON_POINT_POINT_H_
