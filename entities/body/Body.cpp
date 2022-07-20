@@ -1,17 +1,16 @@
 #include "Body.h"
-QString Body::GetBodyType() {
+
+#include <utility>
+QString Body::GetBodyType() const {
   return type_;
 }
 
-const Skeleton &Body::GetSkeleton() {
+const Skeleton &Body::GetSkeleton() const {
   return skeleton_;
 }
 
 void Body::AddTo(QGraphicsScene *scene) const {
-  QVector<Point *> skeletonPoints = skeleton_.GetPoints(); //MainPoint is skeletonPoints[0]
-  scene->addItem(skeletonPoints[0]);
+  scene->addItem(skeleton_.GetMainPoint());
 }
 
-Body::Body(const Skeleton &skeleton, QVector<QImage *> images) : skeleton_(skeleton), images_(images) {
-
-}
+Body::Body(Skeleton skeleton, QVector<Image *> images) : skeleton_(std::move(skeleton)), images_(std::move(images)) {}

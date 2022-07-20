@@ -2,19 +2,19 @@
 #define CARTOON_MAKER_ENTITIES_BODY_BODY_H_
 
 #include "../skeleton/Skeleton.h"
-#include <QImage>
+#include "../../logic/images/Image.h"
 #include <QGraphicsScene>
 
 class Body {
   // TODO: function Image <-> ID; -MakeBody() : void; fix constructor
  public:
-  Body(const Skeleton &, QVector<QImage *>/*, function Image -> ID*/);
-  QString GetBodyType();
-  const Skeleton &GetSkeleton();
+  Body(Skeleton, QVector<Image *>/*, function Image -> ID*/);
+  QString GetBodyType() const;
+  const Skeleton &GetSkeleton() const;
   void AddTo(QGraphicsScene *scene) const;
  private:
   Skeleton skeleton_;
-  QVector<QImage *> images_;
+  QVector<Image *> images_;
   const QString type_;
 };
 
