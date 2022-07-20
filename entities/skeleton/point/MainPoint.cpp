@@ -3,6 +3,8 @@
 #include <QPen>
 #include <QColor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
+#include "point_utils.h"
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
@@ -16,7 +18,10 @@ QPen MainPoint::GetStyle() const {
   return pen;
 }
 void MainPoint::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-  this->setPos(event->scenePos());
+  if (scene() == nullptr)
+    return;
+  QRectF sceneRect = scene()->sceneRect();
+  setPos(PointUtils::FixPointPositionInsideRect(sceneRect, event->scenePos()));
 }
 
 QRectF MainPoint::boundingRect() const {
