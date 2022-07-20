@@ -9,15 +9,15 @@ class SidePoint : public Point {
  public:
   const static QColor BorderColor;
   SidePoint(const double radius, double angle, MainPoint* parent);
-  double GetRadius() const;
-  double GetAngle() const;
+  [[nodiscard]] double GetRadius() const;
+  [[nodiscard]] double GetAngle() const;
   void AddMouseMoveEventListener(std::function<void(SidePoint*)> function);
  protected:
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
  private slots:
   void onPosChanged();
  private:
-  QPen GetStyle() const override;
+  [[nodiscard]] QPen GetStyle() const override;
   const double radius_;
   double angle_;
   QGraphicsLineItem *lineToParent_;
