@@ -1,0 +1,8 @@
+#ifndef CARTOON_MAKER_ENTITIES_BODY_BODY_H_
+#define CARTOON_MAKER_ENTITIES_BODY_BODY_H_
+
+class Body {
+  // TODO: Create Body class
+};
+
+#endif //CARTOON_MAKER_ENTITIES_BODY_BODY_H_

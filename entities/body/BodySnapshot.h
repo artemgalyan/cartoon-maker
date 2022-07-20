@@ -1,0 +1,10 @@
+#ifndef CARTOON_MAKER_ENTITIES_BODY_BODYSNAPSHOT_H_
+#define CARTOON_MAKER_ENTITIES_BODY_BODYSNAPSHOT_H_
+
+#include "Body.h"
+
+class BodySnapshot {
+  // TODO: Create BodySnapshot class
+};
+
+#endif //CARTOON_MAKER_ENTITIES_BODY_BODYSNAPSHOT_H_
