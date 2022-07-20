@@ -5,7 +5,13 @@
 
 class MainPoint : public Point {
  public:
+  const static QColor BorderColor;
+  const static int BorderWidth = 5;
   explicit MainPoint(double x, double y);
+ private:
+  QPen GetStyle() const override;
 };
+
+const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
 #endif //CARTOON_MAKER_LOGIC_SKELETON_POINT_MAINPOINT_H_
