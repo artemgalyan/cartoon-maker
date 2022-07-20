@@ -7,7 +7,7 @@
 
 class Point : public QGraphicsObject {
  public:
-  Point(int x, int y, Point* parent) : QGraphicsObject(parent) {
+  Point(int x, int y, Point* parent = nullptr) : QGraphicsObject(parent) {
     setPos(x, y);
   };
   const static int PaintRadius = 20;
