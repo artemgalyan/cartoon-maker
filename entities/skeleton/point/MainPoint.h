@@ -12,6 +12,4 @@ class MainPoint : public Point {
   QPen GetStyle() const override;
 };
 
-const QColor MainPoint::BorderColor = QColor("#E74C3C");
-
 #endif //CARTOON_MAKER_LOGIC_SKELETON_POINT_MAINPOINT_H_
