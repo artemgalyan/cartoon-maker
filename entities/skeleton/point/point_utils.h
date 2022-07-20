@@ -2,6 +2,7 @@
 #define CARTOON_MAKER_ENTITIES_SKELETON_POINT_UTILS_H_
 
 #include <QPointF>
+#include <QRectF>
 
 class PointUtils {
  public:
@@ -18,6 +19,23 @@ class PointUtils {
       angle = 2 * std::numbers::pi - angle;
     }
     return angle;
+  }
+  static QPointF FixPointPositionInsideRect(const QRectF &rect, QPointF point) {
+    if (rect.contains(point)) {
+      return point;
+    }
+    if (point.x() < 0) {
+      point.setX(0);
+    } else if (point.x() > rect.width()) {
+      point.setX(rect.width());
+    }
+    if (point.y() < 0) {
+      point.setY(0);
+    }
+    else if (point.y() > rect.height()) {
+      point.setY(rect.height());
+    }
+    return point;
   }
 };
 
