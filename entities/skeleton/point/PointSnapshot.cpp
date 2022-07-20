@@ -2,12 +2,12 @@
 
 #include "point_utils.h"
 
-PointSnapshot::PointSnapshot(const MainPoint &p) : isStaightMovement(true) {
+PointSnapshot::PointSnapshot(const MainPoint &p) : isStraightMovement(true) {
   coord1 = p.x();
   coord2 = p.y();
 }
 
-PointSnapshot::PointSnapshot(const SidePoint &p) : isStaightMovement(false) {
+PointSnapshot::PointSnapshot(const SidePoint &p) : isStraightMovement(false) {
   coord1 = PointUtils::GetDistance(p.pos());
   coord2 = PointUtils::GetAngle(p.pos());
 }
