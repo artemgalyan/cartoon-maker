@@ -4,11 +4,14 @@
 #include <QVector>
 
 #include "point/point.h"
+#include "point/MainPoint.h"
 
 class Skeleton {
  public:
-  explicit Skeleton(QVector<Point*> points);;
+  explicit Skeleton(QVector<Point*> points);
+  Skeleton(const Skeleton&) noexcept;
   [[nodiscard]] const QVector<Point*>& GetPoints() const;
+  [[nodiscard]] MainPoint* GetMainPoint() const;
  private:
   QVector<Point*> points_;
 };
