@@ -11,7 +11,7 @@ class Body {
   [[nodiscard]] QString GetBodyType() const;
   [[nodiscard]] const Skeleton &GetSkeleton() const;
   void AddTo(QGraphicsScene *scene) const;
-  Body* Clone() const;
+  [[nodiscard]] Body* Clone() const;
  private:
   static double ToDegrees(double rad);
   void ConnectImagesToPoints();
