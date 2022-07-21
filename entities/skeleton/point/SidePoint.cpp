@@ -46,6 +46,6 @@ QPen SidePoint::GetStyle() const {
   return pen;
 }
 
-Point *SidePoint::Clone(MainPoint *parent) const {
+Point *SidePoint::Clone(Point *parent) const {
   return new SidePoint(radius_, angle_, parent);
 }

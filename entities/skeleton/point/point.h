@@ -14,7 +14,7 @@ class Point : public QGraphicsObject {
   const static int PaintRadius = 20;
   Point(double x, double y, Point* parent = nullptr);
   [[nodiscard]] QRectF boundingRect() const override;
-  virtual Point* Clone(MainPoint* parent) const = 0;
+  virtual Point* Clone(Point* parent = nullptr) const = 0;
  private:
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
   [[nodiscard]] virtual QPen GetStyle() const = 0;
