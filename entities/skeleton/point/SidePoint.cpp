@@ -45,3 +45,7 @@ QPen SidePoint::GetStyle() const {
   pen.setColor(BorderColor);
   return pen;
 }
+
+Point *SidePoint::Clone(MainPoint *parent) const {
+  return new SidePoint(radius_, angle_, parent);
+}

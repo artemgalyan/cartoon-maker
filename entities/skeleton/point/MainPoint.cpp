@@ -28,3 +28,6 @@ QRectF MainPoint::boundingRect() const {
   double r = Point::PaintRadius + BorderWidth;
   return {-r, -r, 2 * r, 2 * r};
 }
+Point *MainPoint::Clone(MainPoint *parent) const {
+  return new MainPoint(x(), y());
+}
