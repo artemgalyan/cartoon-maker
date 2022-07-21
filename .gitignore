@@ -36,3 +36,6 @@ cmake-build-debug/
 
 #IDEA
 .idea/
+
+#User files
+*.user

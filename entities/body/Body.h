@@ -6,15 +6,18 @@
 #include <QGraphicsScene>
 
 class Body {
-  // TODO: function Image <-> ID; -MakeBody() : void; fix constructor
  public:
-  Body(Skeleton, QVector<Image *>/*, function Image -> ID*/);
-  QString GetBodyType() const;
-  const Skeleton &GetSkeleton() const;
+  explicit Body(const Skeleton&, QVector<Image *>, QHash<Image*, int>, QString);
+  [[nodiscard]] QString GetBodyType() const;
+  [[nodiscard]] const Skeleton &GetSkeleton() const;
   void AddTo(QGraphicsScene *scene) const;
+  Body* Clone() const;
  private:
+  static double ToDegrees(double rad);
+  void ConnectImagesToPoints();
   Skeleton skeleton_;
-  QVector<Image *> images_;
+  QVector<Image*> images_;
+  QHash<Image*, int> indexFromImage_;
   const QString type_;
 };
 
