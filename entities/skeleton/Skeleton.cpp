@@ -19,3 +19,16 @@ MainPoint* Skeleton::GetMainPoint() const {
 Skeleton::Skeleton(const Skeleton &s) noexcept {
   points_ = s.points_;
 }
+
+Skeleton Skeleton::Clone() const {
+  QVector<Point*> points;
+  for (int i = 0; i < points.size(); ++i) {
+    Point* parent = nullptr;
+    if (i != 0) {
+      auto parentIndex = points_.indexOf(points_[i]->parentItem());
+      parent = points[parentIndex];
+    }
+    points.push_back(points[i]->Clone(parent));
+  }
+  return Skeleton(points);
+}

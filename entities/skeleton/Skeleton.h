@@ -12,6 +12,7 @@ class Skeleton {
   Skeleton(const Skeleton&) noexcept;
   [[nodiscard]] const QVector<Point*>& GetPoints() const;
   [[nodiscard]] MainPoint* GetMainPoint() const;
+  [[nodiscard]] Skeleton Clone() const;
  private:
   QVector<Point*> points_;
 };
