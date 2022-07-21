@@ -6,7 +6,7 @@
 #include <QPen>
 #include <QColor>
 
-#include "MainPoint.h"
+class MainPoint;
 
 class Point : public QGraphicsObject {
  public:
