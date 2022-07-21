@@ -1,2 +1,8 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/snake">
+        <file>Snake/1.png</file>
+        <file>Snake/2.png</file>
+        <file>Snake/3.png</file>
+        <file>Snake/skeleton.txt</file>
+    </qresource>
+</RCC>
