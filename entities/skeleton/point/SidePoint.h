@@ -8,7 +8,7 @@
 class SidePoint : public Point {
  public:
   const static QColor BorderColor;
-  SidePoint(double radius, double angle, MainPoint *parent);
+  SidePoint(double radius, double angle, Point *parent);
   [[nodiscard]] double GetRadius() const;
   [[nodiscard]] double GetAngle() const;
   void AddMouseMoveEventListener(std::function<void(SidePoint *)> function);

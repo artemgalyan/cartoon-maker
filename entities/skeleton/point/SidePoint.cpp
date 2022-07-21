@@ -12,7 +12,7 @@ double SidePoint::GetAngle() const {
   return angle_;
 }
 
-SidePoint::SidePoint(const double radius, double angle, MainPoint *parent) : Point(radius * cos(angle),
+SidePoint::SidePoint(const double radius, double angle, Point *parent) : Point(radius * cos(angle),
                                                                                    radius * sin(angle),
                                                                                    parent),
                                                                              radius_(radius),
