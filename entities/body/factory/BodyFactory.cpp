@@ -1,6 +1,8 @@
 #include "BodyFactory.h"
 #include "QFile"
 
+BodyFactory * BodyFactory::instance_=nullptr;
+
 BodyFactory *BodyFactory::Instance() {
   if (instance_ == nullptr) {
     instance_ = new BodyFactory();
@@ -11,8 +13,23 @@ BodyFactory *BodyFactory::Instance() {
 void BodyFactory::Initialize() {
   instance_ = Instance();
 }
+
 void BodyFactory::LoadModels() {
-  QFile inputFile("Snake/skeleton.txt");
+ QString fileName ="res/models/Snake/skeleton.txt";
+ LoadModelByType(fileName);
+}
+
+Body *BodyFactory::CreateByType(QString &type) const {
+  int i;
+  for(i=0; i< models_.size(); i++){
+    if (models_[i].GetBodyType()==type)
+      return models_[i].Clone();
+  }
+  return nullptr;
+}
+
+void BodyFactory::LoadModelByType(const QString &fileName) {
+  QFile inputFile(fileName);
   if (inputFile.open(QIODevice::ReadOnly))
   {
     QTextStream in(&inputFile);
@@ -33,35 +50,25 @@ void BodyFactory::LoadModels() {
     Skeleton skeleton(points);
 
     lineBlock = in.readLine().toInt();
-    int pngNumber;
-    QString fileName;
+    QString pointFileName;
     QPointF offset;
     int pointIndex;
     QVector<Image*> images;
     QHash<Image*, int> indexFromImage;
     while (lineBlock!=0)
     {
-      in>>pngNumber;
-      fileName = "Snake/" + QString::number(pngNumber) +".png";
+      in>>pointFileName;
       in>>offset.rx();
       in>>offset.ry();
       in>>pointIndex;
-      QPixmap pixmap(fileName);
+      QPixmap pixmap(pointFileName);
       Image *image= new Image(pixmap,offset);
       images.push_back(image);
       indexFromImage.insert(image, pointIndex);
       --lineBlock;
     }
-    Body body(skeleton, images, indexFromImage, "Snake/");
+    Body body(skeleton, images, indexFromImage, fileName);
     models_.push_back(body);
     inputFile.close();
   }
-}
-Body *BodyFactory::CreateByType(QString &type) const {
-  int i;
-  for(i=0; i< models_.size(); i++){
-    if (models_[i].GetBodyType()==type)
-      return models_[i].Clone();
-  }
-  return nullptr;
 }

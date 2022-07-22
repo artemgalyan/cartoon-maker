@@ -15,6 +15,7 @@ class BodyFactory {
   static BodyFactory *Instance();
  private:
   void LoadModels();
+  void LoadModelByType(const QString& fileName);
   BodyFactory() = default;
   QVector<Body> models_;
   static BodyFactory *instance_;
