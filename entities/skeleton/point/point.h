@@ -11,7 +11,7 @@ class MainPoint;
 class Point : public QGraphicsObject {
  public:
   const static QColor PointColor;
-  const static int PaintRadius = 20;
+  const static int PaintRadius = 5;
   Point(double x, double y, Point* parent = nullptr);
   [[nodiscard]] QRectF boundingRect() const override;
   virtual Point* Clone(Point* parent = nullptr) const = 0;
