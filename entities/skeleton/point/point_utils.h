@@ -20,6 +20,10 @@ class PointUtils {
     }
     return angle;
   }
+  static double DegreeToRadian(double degree){
+    return (degree*std::numbers::pi)/180;
+
+  }
   static QPointF FixPointPositionInsideRect(const QRectF &rect, QPointF point) {
     if (rect.contains(point)) {
       return point;

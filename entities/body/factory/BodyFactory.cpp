@@ -23,9 +23,7 @@ void BodyFactory::LoadModels() {
   models.setFilter(QDir::Dirs);
   QDirIterator iterator(models, QDirIterator::Subdirectories);
   while (iterator.hasNext()) {
-    QString subDirName = iterator.path();
-    LoadModelByType(subDirName);
-    iterator.next();
+    LoadModelByType(iterator.next());
   }
 }
 
