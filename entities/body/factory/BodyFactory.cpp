@@ -38,7 +38,7 @@ Body *BodyFactory::CreateByType(const QString &type) const {
 }
 
 void BodyFactory::LoadModelByType(const QString &subDirName) {
-  QString fileName = subDirName + "skeleton.txt";
+  QString fileName = subDirName + "/skeleton.txt";
   QFile inputFile(fileName);
   if (inputFile.open(QIODevice::ReadOnly)) {
     QTextStream in(&inputFile);
@@ -55,6 +55,7 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       else points.push_back(new SidePoint(coord1, coord2, points[parent]));
       --lineBlock;
     }
+    in.readLine();
     Skeleton skeleton(points);
 
     lineBlock = in.readLine().toInt();
@@ -68,13 +69,14 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       in >> offset.rx();
       in >> offset.ry();
       in >> pointIndex;
-      QPixmap pixmap(pointFileName);
+      QPixmap pixmap(subDirName+ "/" + pointFileName);
       Image *image = new Image(pixmap, offset);
       images.push_back(image);
       indexFromImage.insert(image, pointIndex);
       --lineBlock;
     }
-    Body body(skeleton, images, indexFromImage, subDirName);
+    QDir dir(subDirName);
+    Body body(skeleton, images, indexFromImage, dir.dirName());
     models_.push_back(body);
     inputFile.close();
   }
