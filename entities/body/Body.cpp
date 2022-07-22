@@ -30,6 +30,9 @@ void Body::ConnectImagesToPoints() {
     auto point = dynamic_cast<SidePoint*>(points[pointIndex]);
     auto item = new QGraphicsPixmapItem(image->GetImage(), point->parentItem());
     item->setOffset(image->GetOffset());
+    item->setTransformationMode(Qt::SmoothTransformation);
+    item->setFlags(QGraphicsItem::ItemStacksBehindParent | QGraphicsItem::ItemNegativeZStacksBehindParent);
+    item->setZValue(-1);
     point->AddMouseMoveEventListener([item](SidePoint* point){
       item->setRotation(ToDegrees(point->GetAngle()));
     });
