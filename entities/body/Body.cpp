@@ -28,7 +28,7 @@ void Body::ConnectImagesToPoints() {
     Image* image = images_[i];
     int pointIndex = indexFromImage_[image];
     auto point = dynamic_cast<SidePoint*>(points[pointIndex]);
-    auto item = new QGraphicsPixmapItem(image->GetImage(), point);
+    auto item = new QGraphicsPixmapItem(image->GetImage(), point->parentItem());
     item->setOffset(image->GetOffset());
     point->AddMouseMoveEventListener([item](SidePoint* point){
       item->setRotation(ToDegrees(point->GetAngle()));
