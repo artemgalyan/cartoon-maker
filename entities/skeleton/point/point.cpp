@@ -4,7 +4,7 @@ const QColor Point::PointColor("#F39C12");
 
 Point::Point(double x, double y, Point *parent) : QGraphicsObject(parent) {
   setPos(x, y);
-  setFlags(QGraphicsItem::ItemIsMovable);
+  setFlags(QGraphicsItem::ItemIsMovable | ItemStacksBehindParent | ItemNegativeZStacksBehindParent);
 }
 
 QRectF Point::boundingRect() const {
