@@ -14,6 +14,7 @@ find_package(Qt6 COMPONENTS
     Widgets
     REQUIRED)
 
+
 add_executable(cartoon_maker main.cpp entities/skeleton/point/point.h
     entities/skeleton/point/MainPoint.cpp entities/skeleton/point/MainPoint.h
     entities/skeleton/point/SidePoint.cpp entities/skeleton/point/SidePoint.h
@@ -25,7 +26,7 @@ add_executable(cartoon_maker main.cpp entities/skeleton/point/point.h
     entities/skeleton/SkeletonSnapshot.h entities/body/BodySnapshot.cpp
     entities/body/BodySnapshot.h entities/Frame.cpp entities/Frame.h
     entities/Cartoon.cpp entities/Cartoon.h
-    ui/testwidget.cpp ui/testwidget.h ui/testwidget.ui entities/skeleton/point/point.cpp)
+    ui/testwidget.cpp ui/testwidget.h ui/testwidget.ui entities/skeleton/point/point.cpp res.qrc)
 
 target_link_libraries(cartoon_maker
     Qt::Core
