@@ -6,10 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "D:/qtInstall/6.3.1/mingw_64")
-
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+set(CMAKE_PREFIX_PATH "<Path to Qt>/QT/6.3.1/mingw_64")
 
 find_package(Qt6 COMPONENTS
     Core
