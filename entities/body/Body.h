@@ -8,7 +8,6 @@
 class Body {
  public:
   explicit Body(const Skeleton &, QVector<Image *>, QHash<Image *, int>, QString);
-  //Body(const Body &)=default;
   Body& operator=(const Body&) = default;
   [[nodiscard]] QString GetBodyType() const;
   [[nodiscard]] const Skeleton &GetSkeleton() const;
