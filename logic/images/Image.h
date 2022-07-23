@@ -11,7 +11,7 @@ class Image {
   [[nodiscard]] QPointF GetOffset() const;
  private:
   QPixmap image_;
- QPointF offset_;
+  QPointF offset_;
 };
 
 #endif //CARTOON_MAKER_LOGIC_IMAGES_IMAGE_H_
