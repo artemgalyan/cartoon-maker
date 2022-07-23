@@ -28,9 +28,9 @@ void BodyFactory::LoadModels() {
 }
 
 Body *BodyFactory::CreateByType(const QString &type) const {
-  for (int i = 0; i < models_.size(); i++) {
-    if (models_[i].GetBodyType() == type)
-      return models_[i].Clone();
+  for (const auto &model : models_) {
+    if (model.GetBodyType() == type)
+      return model.Clone();
   }
   return nullptr;
 }
@@ -50,7 +50,7 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       in >> coord2;
       in >> parent;
       if (parent == -1) points.push_back(new MainPoint(coord1, coord2));
-      else points.push_back(new SidePoint(coord1, coord2, points[parent]));
+      else points.push_back(new SidePoint(coord1, qDegreesToRadians(coord2), points[parent]));
       --lineBlock;
     }
     in.readLine();
@@ -67,8 +67,8 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       in >> offset.rx();
       in >> offset.ry();
       in >> pointIndex;
-      QPixmap pixmap(subDirName+ "/" + pointFileName);
-      Image *image = new Image(pixmap, offset);
+      QPixmap pixmap(subDirName + "/" + pointFileName);
+      auto *image = new Image(pixmap, offset);
       images.push_back(image);
       indexFromImage.insert(image, pointIndex);
       --lineBlock;
