@@ -10,7 +10,6 @@ PointSnapshot::PointSnapshot(const MainPoint &p) : isStraightMovement(true) {
 PointSnapshot::PointSnapshot(const SidePoint &p) : isStraightMovement(false) {
   coord1 = PointUtils::GetDistance(p.pos());
   coord2 = PointUtils::GetAngle(p.pos());
-  qDebug() << "side";
 }
 
 PointSnapshot PointSnapshot::CreateSnapshotOf(const Point *point) {

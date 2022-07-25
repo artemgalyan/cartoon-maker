@@ -24,8 +24,8 @@ class TestWidget : public QWidget {
   void resizeEvent(QResizeEvent *event) override;
  private:
   Ui::TestWidget *ui;
-  QGraphicsScene* scene_;
-  QGraphicsView* view_;
+  QGraphicsScene *scene_;
+  QGraphicsView *view_;
 };
 
 #endif //CARTOON_MAKER_UI_TESTWIDGET_H_

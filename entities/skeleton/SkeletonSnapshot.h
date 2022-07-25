@@ -2,7 +2,6 @@
 #define CARTOON_MAKER_ENTITIES_SKELETON_SKELETONSNAPSHOT_H_
 
 #include "point/PointSnapshot.h"
-
 class Skeleton;
 
 #include <QVector>

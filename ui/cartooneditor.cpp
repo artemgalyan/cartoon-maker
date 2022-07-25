@@ -25,7 +25,7 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   auto factory = BodyFactory::Instance();
   AddBody(factory->CreateByType("Pig"));
   AddBody(factory->CreateByType("Snake"));
-  QTimer::singleShot(100, [this]{ AddFrame(); });
+  QTimer::singleShot(100, [this] { AddFrame(); });
 }
 
 CartoonEditor::~CartoonEditor() {
@@ -33,7 +33,6 @@ CartoonEditor::~CartoonEditor() {
 }
 
 void CartoonEditor::LoadFrame(const Frame &frame) {
-  qDebug() << "loading frame";
   const auto &snapshots = frame.GetSnapshots();
   for (int i = 0; i < snapshots.count(); ++i) {
     bodies_[i]->LoadSnapshot(snapshots[i]);
@@ -43,8 +42,7 @@ void CartoonEditor::LoadFrame(const Frame &frame) {
 void CartoonEditor::AddFrame() {
   if (currentFrame_ == -1) {
     frames_.push_back(MakeFrame());
-  }
-  else {
+  } else {
     UpdateFrame();
     frames_.push_back(frames_.last());
   }
@@ -77,7 +75,6 @@ QPixmap CartoonEditor::GetScenePixmap() const {
 
 void CartoonEditor::SwitchToFrame(int index) {
   frames_[currentFrame_] = MakeFrame();
-  qDebug() << "switch to" << index;
   currentFrame_ = index;
   LoadFrame(frames_[currentFrame_]);
 }

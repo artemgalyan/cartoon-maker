@@ -6,20 +6,18 @@
 #include "frameview.h"
 
 FrameWidget::FrameWidget(QVector<QPixmap> images, QWidget *parent) :
-  images_(std::move(images)),
-  QWidget(parent),
-  ui(new Ui::FrameWidget)
-{
+    images_(std::move(images)),
+    QWidget(parent),
+    ui(new Ui::FrameWidget) {
   ui->setupUi(this);
   auto layout = new QVBoxLayout(this);
   setLayout(layout);
-  for (const auto& image: images_){
-      AddFrame(image);
+  for (const auto &image : images_) {
+    AddFrame(image);
   }
 }
 
-void FrameWidget::AddFrame(const QPixmap &framePixmap)
-{
+void FrameWidget::AddFrame(const QPixmap &framePixmap) {
   QPixmap pixmap = framePixmap.scaledToWidth(0.9 * width());
   images_.push_back(pixmap);
   auto frame = new FrameView(images_.count() - 1, pixmap, this);
@@ -28,24 +26,22 @@ void FrameWidget::AddFrame(const QPixmap &framePixmap)
   layout()->addWidget(frame);
 }
 
-FrameWidget::~FrameWidget()
-{
+FrameWidget::~FrameWidget() {
   delete ui;
 }
 
-void FrameWidget::Clicked(int index)
-{
+void FrameWidget::Clicked(int index) {
   emit FrameSelected(index);
 }
 
-void FrameWidget::UpdateFrame(int index, const QPixmap& image) {
-  if (index >= images_.count()){
+void FrameWidget::UpdateFrame(int index, const QPixmap &image) {
+  if (index >= images_.count()) {
     return;
   }
   images_[index] = image.scaledToWidth(width());
   auto frameView = views_[index];
   if (frameView != nullptr)
-  frameView->setPixmap(images_[index]);
+    frameView->setPixmap(images_[index]);
   else
-    qDebug() << "frameview nullptr" << index << layout()->count();
+    throw std::logic_error("frameView is empty!");
 }

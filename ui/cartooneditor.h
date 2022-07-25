@@ -22,11 +22,11 @@ class CartoonEditor : public QWidget {
   void AddFrame();
   void SwitchToFrame(int index);
   void UpdateFrame();
-  void AddBody(Body*);
+  void AddBody(Body *);
  private:
   [[nodiscard]] QPixmap GetScenePixmap() const;
   FrameWidget *frameWidget_;
-  QVector<Body*> bodies_;
+  QVector<Body *> bodies_;
   QVector<Frame> frames_;
   int currentFrame_ = -1;
   Ui::CartoonEditor *ui;
