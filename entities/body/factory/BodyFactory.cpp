@@ -52,8 +52,8 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       if (parent == -1) points.push_back(new MainPoint(coord1, coord2));
       else points.push_back(new SidePoint(coord1, qDegreesToRadians(coord2), points[parent]));
       --lineBlock;
+      in.readLine();
     }
-    in.readLine();
     Skeleton skeleton(points);
 
     lineBlock = in.readLine().toInt();
