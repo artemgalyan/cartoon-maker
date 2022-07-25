@@ -3,10 +3,13 @@
 
 #include "point/PointSnapshot.h"
 
+class Skeleton;
+
 #include <QVector>
 
 class SkeletonSnapshot {
  public:
+  SkeletonSnapshot(const Skeleton&);
   explicit SkeletonSnapshot(QVector<PointSnapshot>);
   [[nodiscard]] const QVector<PointSnapshot>& GetPointSnapshots() const;
  private:

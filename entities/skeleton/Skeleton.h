@@ -5,6 +5,7 @@
 
 #include "point/point.h"
 #include "point/MainPoint.h"
+#include "SkeletonSnapshot.h"
 
 class Skeleton {
  public:
@@ -13,6 +14,9 @@ class Skeleton {
   [[nodiscard]] const QVector<Point*>& GetPoints() const;
   [[nodiscard]] MainPoint* GetMainPoint() const;
   [[nodiscard]] Skeleton Clone() const;
+  void SetVisible(bool visible) const;
+  void LoadSnapshot(const SkeletonSnapshot&);
+  [[nodiscard]] bool IsVisible() const;
  private:
   QVector<Point*> points_;
 };
