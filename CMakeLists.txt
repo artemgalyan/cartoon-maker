@@ -26,7 +26,9 @@ add_executable(cartoon_maker main.cpp entities/skeleton/point/point.h
     entities/skeleton/SkeletonSnapshot.h entities/body/BodySnapshot.cpp
     entities/body/BodySnapshot.h entities/Frame.cpp entities/Frame.h
     entities/Cartoon.cpp entities/Cartoon.h
-    ui/testwidget.cpp ui/testwidget.h ui/testwidget.ui entities/skeleton/point/point.cpp res.qrc)
+    ui/testwidget.cpp ui/testwidget.h ui/testwidget.ui entities/skeleton/point/point.cpp res.qrc
+    ui/cartooneditor.h ui/cartooneditor.cpp ui/cartooneditor.ui ui/framewidget.h ui/framewidget.cpp ui/framewidget.ui
+    ui/frameview.h ui/frameview.cpp)
 
 target_link_libraries(cartoon_maker
     Qt::Core
