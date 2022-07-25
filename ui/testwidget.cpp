@@ -13,8 +13,10 @@ TestWidget::TestWidget(QWidget *parent) :
   auto factory = BodyFactory::Instance();
   auto snake = factory->CreateByType("Snake");
   snake->AddTo(scene_);
-  auto pig = factory->CreateByType("Pig");
-  pig->AddTo(scene_);
+  for (int i = 0; i < 5; ++i) {
+    auto pig = factory->CreateByType("Pig");
+    pig->AddTo(scene_);
+  }
 }
 
 TestWidget::~TestWidget() {

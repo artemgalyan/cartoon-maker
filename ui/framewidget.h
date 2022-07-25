@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "frameview.h"
+
 namespace Ui {
   class FrameWidget;
 }
@@ -21,6 +23,7 @@ signals:
 private slots:
   void Clicked(int index);
 private:
+  QVector<FrameView*> views_;
   QVector<QPixmap> images_;
   Ui::FrameWidget *ui;
 };

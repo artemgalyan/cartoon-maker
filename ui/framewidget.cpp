@@ -24,6 +24,7 @@ void FrameWidget::AddFrame(const QPixmap &framePixmap)
   images_.push_back(pixmap);
   auto frame = new FrameView(images_.count() - 1, pixmap, this);
   connect(frame, &FrameView::Clicked, this, &FrameWidget::Clicked);
+  views_.push_back(frame);
   layout()->addWidget(frame);
 }
 
@@ -42,6 +43,9 @@ void FrameWidget::UpdateFrame(int index, const QPixmap& image) {
     return;
   }
   images_[index] = image.scaledToWidth(width());
-  auto frameView = dynamic_cast<FrameView*>(layout()->itemAt(index));
+  auto frameView = views_[index];
+  if (frameView != nullptr)
   frameView->setPixmap(images_[index]);
+  else
+    qDebug() << "frameview nullptr" << index << layout()->count();
 }

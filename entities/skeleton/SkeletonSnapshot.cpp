@@ -12,5 +12,6 @@ SkeletonSnapshot::SkeletonSnapshot(const Skeleton &s) {
   auto points = s.GetPoints();
   for (auto point: points){
     snapshots_.push_back(PointSnapshot::CreateSnapshotOf(point));
+    qDebug() << snapshots_.last().coord1 << snapshots_.last().coord2 << snapshots_.last().isStraightMovement;
   }
 }

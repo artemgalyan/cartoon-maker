@@ -28,13 +28,13 @@ void SidePoint::AddMouseMoveEventListener(std::function<void(SidePoint *)> funct
 }
 
 void SidePoint::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-  lineToParent_->setLine(QLineF(QPointF(0, 0), pos()));
   QPointF relativelyToParent = event->scenePos() - parentItem()->scenePos();
   angle_ = PointUtils::GetAngle(relativelyToParent);
-  setPos(radius_ * cos(angle_), radius_ * sin(angle_));
+  UpdatePos();
 }
 
 void SidePoint::onPosChanged() {
+  UpdateLineToParent();
   for (auto function : listeners_) {
     function(this);
   }
@@ -53,4 +53,13 @@ Point *SidePoint::Clone(Point *parent) const {
 
 void SidePoint::SetAngle(double angle) {
   angle_ = angle;
+  UpdatePos();
+}
+
+void SidePoint::UpdatePos() {
+  setPos(radius_ * cos(angle_), radius_ * sin(angle_));
+}
+
+void SidePoint::UpdateLineToParent() {
+  lineToParent_->setLine(QLineF(QPointF(0, 0), pos()));
 }
