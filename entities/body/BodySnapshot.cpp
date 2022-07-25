@@ -12,3 +12,7 @@ bool BodySnapshot::IsVisible() const {
 
 BodySnapshot::BodySnapshot(SkeletonSnapshot skeleton, bool isVisible)
     : skeleton_(std::move(skeleton)), isVisible_(isVisible) {}
+
+BodySnapshot::BodySnapshot(const Body& body) :
+  skeleton_(SkeletonSnapshot(body.GetSkeleton())),
+  isVisible_(body.IsVisible()) {}

@@ -6,6 +6,7 @@
 
 class BodySnapshot {
  public:
+  BodySnapshot(const Body&);
   BodySnapshot(SkeletonSnapshot  skeleton, bool isVisible);
   [[nodiscard]] SkeletonSnapshot GetSkeleton() const;
   [[nodiscard]] bool IsVisible() const;

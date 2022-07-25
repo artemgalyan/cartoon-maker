@@ -1,6 +1,9 @@
 #include "Body.h"
 #include "../skeleton/point/SidePoint.h"
 
+#include "BodySnapshot.h"
+#include "../skeleton/Skeleton.h"
+
 #include <utility>
 #include <QGraphicsPixmapItem>
 
@@ -45,4 +48,16 @@ double Body::ToDegrees(double rad) {
 Body *Body::Clone() const {
   auto newSkeleton = skeleton_.Clone();
   return new Body(newSkeleton, images_, indexFromImage_, type_);
+}
+
+void Body::LoadSnapshot(const BodySnapshot &snapshot) {
+  skeleton_.LoadSnapshot(snapshot.GetSkeleton());
+  skeleton_.SetVisible(snapshot.IsVisible());
+}
+
+void Body::SetVisible(bool visible) {
+  skeleton_.SetVisible(visible);
+}
+bool Body::IsVisible() const {
+  return skeleton_.IsVisible();
 }

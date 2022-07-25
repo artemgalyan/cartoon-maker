@@ -3,7 +3,10 @@
 
 #include "../skeleton/Skeleton.h"
 #include "../../logic/images/Image.h"
+
 #include <QGraphicsScene>
+
+class BodySnapshot;
 
 class Body {
  public:
@@ -13,6 +16,9 @@ class Body {
   [[nodiscard]] const Skeleton &GetSkeleton() const;
   void AddTo(QGraphicsScene *scene) const;
   [[nodiscard]] Body *Clone() const;
+  void LoadSnapshot(const BodySnapshot&);
+  void SetVisible(bool visible);
+  [[nodiscard]] bool IsVisible() const;
  private:
   static double ToDegrees(double rad);
   void ConnectImagesToPoints();
