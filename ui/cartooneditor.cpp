@@ -77,6 +77,7 @@ void CartoonEditor::SwitchToFrame(int index) {
   frames_[currentFrame_] = MakeFrame();
   currentFrame_ = index;
   LoadFrame(frames_[currentFrame_]);
+  frameWidget_->UpdateFrame(currentFrame_, GetScenePixmap());
 }
 
 void CartoonEditor::resizeEvent(QResizeEvent *event) {
