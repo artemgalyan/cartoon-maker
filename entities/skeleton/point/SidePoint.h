@@ -13,6 +13,7 @@ class SidePoint : public Point {
   [[nodiscard]] double GetAngle() const;
   void AddMouseMoveEventListener(std::function<void(SidePoint *)> function);
   Point* Clone(Point* parent) const override;
+  void SetAngle(double angle);
  protected:
   void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
  private slots:

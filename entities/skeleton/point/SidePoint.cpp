@@ -50,3 +50,7 @@ QPen SidePoint::GetStyle() const {
 Point *SidePoint::Clone(Point *parent) const {
   return new SidePoint(radius_, angle_, parent);
 }
+
+void SidePoint::SetAngle(double angle) {
+  angle_ = angle;
+}
