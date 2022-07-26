@@ -11,7 +11,7 @@ class SidePoint : public Point {
   SidePoint(double radius, double angle, Point *parent);
   [[nodiscard]] double GetRadius() const;
   [[nodiscard]] double GetAngle() const;
-  void AddMouseMoveEventListener(std::function<void(SidePoint *)> function);
+  void AddMouseMoveEventListener(const std::function<void(SidePoint *)>& function);
   Point* Clone(Point* parent) const override;
   void SetAngle(double angle);
   void UpdatePos();

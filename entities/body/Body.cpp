@@ -41,6 +41,7 @@ void Body::ConnectImagesToPoints() {
     });
   }
 }
+
 double Body::ToDegrees(double rad) {
   return 180 * rad / std::numbers::pi;
 }

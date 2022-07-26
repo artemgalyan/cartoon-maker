@@ -22,7 +22,7 @@ SidePoint::SidePoint(const double radius, double angle, Point *parent) : Point(r
   connect(this, &QGraphicsObject::yChanged, this, &SidePoint::onPosChanged);
 }
 
-void SidePoint::AddMouseMoveEventListener(std::function<void(SidePoint *)> function) {
+void SidePoint::AddMouseMoveEventListener(const std::function<void(SidePoint *)>& function) {
   listeners_.push_back(function);
   function(this);
 }
@@ -35,7 +35,7 @@ void SidePoint::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
 void SidePoint::onPosChanged() {
   UpdateLineToParent();
-  for (auto function : listeners_) {
+  for (const auto& function : listeners_) {
     function(this);
   }
 }
