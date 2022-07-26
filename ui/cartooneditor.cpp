@@ -1,27 +1,34 @@
 #include "cartooneditor.h"
 #include "ui_cartooneditor.h"
 #include "../entities/body/factory/BodyFactory.h"
+#include "CartoonScene.h"
 
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QKeyEvent>
+#include <QKeyCombination>
 
 CartoonEditor::CartoonEditor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CartoonEditor) {
   ui->setupUi(this);
-  ui->graphicsView->setScene(new QGraphicsScene());
+
+  auto cartoonScene = new CartoonScene();
+  ui->graphicsView->setScene(cartoonScene);
   ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
   auto factory = BodyFactory::Instance();
 
   frameWidget_ = new FrameWidget(QVector<QPixmap>(), ui->framesArea);
   modelWidget_ = new ModelWidget(factory->GetPreviews(), this, ui->modelsArea);
-  ui->framesArea->setAlignment(Qt::AlignVCenter);
   ui->framesArea->setWidget(frameWidget_);
   ui->modelsArea->setWidget(modelWidget_);
+
   connect(frameWidget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
   connect(ui->submitButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
+  connect(cartoonScene, SIGNAL(Changed()), this, SLOT(SceneChanged()));
 
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
@@ -35,15 +42,17 @@ void CartoonEditor::LoadFrame(const Frame &frame) {
   for (int i = 0; i < snapshots.count(); ++i) {
     bodies_[i]->LoadSnapshot(snapshots[i]);
   }
+  UpdateFrame();
 }
 
 void CartoonEditor::AddFrame() {
+  while (!previous_frames_.empty())
+    previous_frames_.pop();
   if (currentFrame_ == -1) {
     frames_.push_back(MakeFrame());
     currentFrame_ = 0;
     frameWidget_->AddFrame(GetScenePixmap());
   } else {
-    UpdateFrame();
     if (currentFrame_ == frames_.count() - 1) {
       frames_.push_back(frames_.last());
       frameWidget_->AddFrame(GetScenePixmap());
@@ -54,6 +63,7 @@ void CartoonEditor::AddFrame() {
       ++currentFrame_;
     }
   }
+  UpdateFrame();
 }
 
 Frame CartoonEditor::MakeFrame() const {
@@ -102,4 +112,36 @@ void CartoonEditor::AddBody(Body *b) {
       frames_[i].AddBodySnapshot(addedBody);
     }
   }
+}
+
+void CartoonEditor::Restore() {
+  if (previous_frames_.empty())
+    return;
+  qDebug() << previous_frames_.size();
+  frames_ = previous_frames_.top().second;
+  currentFrame_ = previous_frames_.top().first;
+  previous_frames_.pop();
+  qDebug() << previous_frames_.size();
+  LoadFrame(frames_[currentFrame_]);
+}
+
+void CartoonEditor::keyPressEvent(QKeyEvent *event) {
+  if (event->matches(QKeySequence::Undo)) {
+    Restore();
+  }
+  QWidget::keyPressEvent(event);
+}
+
+void CartoonEditor::SceneChanged() {
+  UpdateFrame();
+  PushCurrentState();
+}
+
+void CartoonEditor::PushCurrentState() {
+  previous_frames_.push({currentFrame_, frames_});
+}
+
+void CartoonEditor::ClearPrevStates() {
+  while (!previous_frames_.empty())
+    previous_frames_.pop();
 }
