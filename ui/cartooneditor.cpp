@@ -46,7 +46,6 @@ void CartoonEditor::AddFrame() {
     frames_.push_back(frames_.last());
   }
   currentFrame_ = frames_.count() - 1;
-  qDebug() << currentFrame_ << frames_.count();
   frameWidget_->AddFrame(GetScenePixmap());
 }
 
