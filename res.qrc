@@ -4,9 +4,11 @@
         <file>res/models/Snake/2.png</file>
         <file>res/models/Snake/3.png</file>
         <file>res/models/Snake/skeleton.txt</file>
+        <file>res/models/Snake/preview.png</file>
         <file>res/models/Pig/1.png</file>
         <file>res/models/Pig/2.png</file>
         <file>res/models/Pig/3.png</file>
         <file>res/models/Pig/skeleton.txt</file>
+        <file>res/models/Pig/preview.png</file>
     </qresource>
 </RCC>

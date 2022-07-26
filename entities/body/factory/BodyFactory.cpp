@@ -74,9 +74,17 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       --lineBlock;
     }
     QDir dir(subDirName);
-    Body body(skeleton, images, indexFromImage, dir.dirName());
+    QString entityName = dir.dirName();
+    Body body(skeleton, images, indexFromImage, entityName);
     models_.push_back(body);
     inputFile.close();
+
+    QPixmap preview(subDirName + "/preview.png");
+    previews_.push_back({entityName, preview});
   }
+}
+
+const QVector<QPair<QString, QPixmap>> &BodyFactory::GetPreviews() const {
+  return previews_;
 }
 
