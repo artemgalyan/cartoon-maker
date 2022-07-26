@@ -15,7 +15,7 @@ class BodyFactory {
   [[nodiscard]] Body *CreateByType(const QString &type) const;
   static void Initialize();
   static BodyFactory *Instance();
-  const QVector<QPair<QString, QPixmap>>& GetPreviews() const;
+  [[nodiscard]] const QVector<QPair<QString, QPixmap>>& GetPreviews() const;
  private:
   void LoadModels();
   void LoadModelByType(const QString &subDirName);

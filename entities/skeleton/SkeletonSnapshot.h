@@ -8,7 +8,7 @@ class Skeleton;
 
 class SkeletonSnapshot {
  public:
-  SkeletonSnapshot(const Skeleton&);
+  explicit SkeletonSnapshot(const Skeleton&);
   explicit SkeletonSnapshot(QVector<PointSnapshot>);
   [[nodiscard]] const QVector<PointSnapshot>& GetPointSnapshots() const;
  private:
