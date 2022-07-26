@@ -5,6 +5,7 @@
 
 #include "framewidget.h"
 #include "../entities/Frame.h"
+#include "modelwidget.h"
 
 namespace Ui {
 class CartoonEditor;
@@ -15,17 +16,18 @@ class CartoonEditor : public QWidget {
 
  public:
   explicit CartoonEditor(QWidget *parent = nullptr);
-  ~CartoonEditor();
+  ~CartoonEditor() override;
   void LoadFrame(const Frame &frame);
   [[nodiscard]] Frame MakeFrame() const;
+  void AddBody(Body *);
  private slots:
   void AddFrame();
   void SwitchToFrame(int index);
   void UpdateFrame();
-  void AddBody(Body *);
  private:
   [[nodiscard]] QPixmap GetScenePixmap() const;
   FrameWidget *frameWidget_;
+  ModelWidget *modelWidget_;
   QVector<Body *> bodies_;
   QVector<Frame> frames_;
   int currentFrame_ = -1;

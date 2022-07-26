@@ -4,7 +4,7 @@
 
 #include <QWidget>
 
-#include "cartooneditor.h"
+class CartoonEditor;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ModelWidget; }

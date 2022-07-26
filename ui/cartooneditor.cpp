@@ -13,16 +13,17 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   ui->graphicsView->setScene(new QGraphicsScene());
   ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  auto factory = BodyFactory::Instance();
 
   frameWidget_ = new FrameWidget(QVector<QPixmap>(), this);
+  modelWidget_ = new ModelWidget(factory->GetPreviews(), this, this);
   ui->framesArea->setAlignment(Qt::AlignVCenter);
   ui->framesArea->setWidget(frameWidget_);
+  ui->modelsArea->setWidget(modelWidget_);
   connect(frameWidget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
   connect(ui->submitButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
 
-  auto factory = BodyFactory::Instance();
-  AddBody(factory->CreateByType("Pig"));
-  AddBody(factory->CreateByType("Snake"));
+
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
 
