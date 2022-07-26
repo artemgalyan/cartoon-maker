@@ -10,5 +10,7 @@
         <file>res/models/Pig/3.png</file>
         <file>res/models/Pig/skeleton.txt</file>
         <file>res/models/Pig/preview.png</file>
+        <file>res/styles/button/style.txt</file>
+        <file>res/styles/slider/style.txt</file>
     </qresource>
 </RCC>
