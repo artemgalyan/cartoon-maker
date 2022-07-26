@@ -58,6 +58,7 @@ void Body::LoadSnapshot(const BodySnapshot &snapshot) {
 void Body::SetVisible(bool visible) {
   skeleton_.SetVisible(visible);
 }
+
 bool Body::IsVisible() const {
   return skeleton_.IsVisible();
 }
