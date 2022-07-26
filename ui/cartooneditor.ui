@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3,1">
@@ -23,6 +29,9 @@
        </property>
        <property name="widgetResizable">
         <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignHCenter|Qt::AlignTop</set>
        </property>
        <widget class="QWidget" name="scrollAreaWidgetContents">
         <property name="geometry">
@@ -39,7 +48,11 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QGraphicsView" name="graphicsView"/>
+        <widget class="QGraphicsView" name="graphicsView">
+         <property name="renderHints">
+          <set>QPainter::Antialiasing|QPainter::LosslessImageRendering|QPainter::SmoothPixmapTransform|QPainter::VerticalSubpixelPositioning</set>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="submitButton">
@@ -52,6 +65,15 @@
          </property>
          <property name="text">
           <string>Add frame</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -69,7 +91,7 @@
         <bool>true</bool>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignHCenter|Qt::AlignTop</set>
        </property>
        <widget class="QWidget" name="scrollAreaWidgetContents_2">
         <property name="geometry">

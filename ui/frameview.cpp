@@ -1,6 +1,9 @@
 #include "frameview.h"
 
-FrameView::FrameView(int index, QPixmap image, QWidget *parent) : QLabel(parent), index_(index), image_(image) {
+#include <utility>
+
+FrameView::FrameView(int index, QPixmap image, QWidget *parent)
+    : QLabel(parent), index_(index), image_(std::move(image)) {
   resize(image_.size());
   setPixmap(image_);
 }

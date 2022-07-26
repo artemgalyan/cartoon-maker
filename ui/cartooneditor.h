@@ -42,6 +42,11 @@ class CartoonEditor : public QWidget {
  protected:
   void keyPressEvent(QKeyEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
+ private:
+  void SetupGraphicsView();
+  void SetupFrameWidget();
+  void SetupModelWidget();
+  void MakeConnects();
 };
 
 #endif // CARTOONEDITOR_H

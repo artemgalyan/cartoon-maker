@@ -18,7 +18,7 @@ FrameWidget::FrameWidget(QVector<QPixmap> images, QWidget *parent) :
 }
 
 void FrameWidget::AddFrame(const QPixmap &framePixmap) {
-  QPixmap pixmap = framePixmap.scaledToWidth(0.9 * width(), Qt::SmoothTransformation);
+  QPixmap pixmap = framePixmap.scaledToWidth(ImageWidthMultiplyRatio * width(), Qt::SmoothTransformation);
   images_.push_back(pixmap);
   auto frame = new FrameView(images_.count() - 1, pixmap, this);
   connect(frame, &FrameView::Clicked, this, &FrameWidget::Clicked);
@@ -41,7 +41,7 @@ void FrameWidget::UpdateFrame(int index, const QPixmap &image) {
   if (index >= images_.count()) {
     return;
   }
-  images_[index] = image.scaledToWidth(0.9 * width());
+  images_[index] = image.scaledToWidth(ImageWidthMultiplyRatio * width(), Qt::SmoothTransformation);
   auto frameView = views_[index];
   if (frameView != nullptr)
     frameView->setPixmap(images_[index]);
@@ -50,15 +50,16 @@ void FrameWidget::UpdateFrame(int index, const QPixmap &image) {
 }
 
 void FrameWidget::InsertFrame(int index, const QPixmap &framePixmap) {
-  QPixmap pixmap = framePixmap.scaledToWidth(0.9 * width(), Qt::SmoothTransformation);
+  QPixmap pixmap = framePixmap.scaledToWidth(ImageWidthMultiplyRatio * width(), Qt::SmoothTransformation);
   if (index == images_.count() - 1){
     AddFrame(framePixmap);
-    qDebug() << index << images_.count();
     return;
   }
   images_.insert(index + 1, framePixmap);
   auto frame = new FrameView(index, pixmap, this);
+
   connect(frame, &FrameView::Clicked, this, &FrameWidget::Clicked);
+
   views_.insert(index + 1,frame);
   auto l = dynamic_cast<QVBoxLayout*>(layout());
   l->insertWidget(index, frame);

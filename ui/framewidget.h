@@ -13,6 +13,7 @@ class FrameWidget : public QWidget {
  Q_OBJECT
 
  public:
+  constexpr const static double ImageWidthMultiplyRatio = 0.8;
   explicit FrameWidget(QVector<QPixmap> images = QVector<QPixmap>(), QWidget *parent = nullptr);
   void AddFrame(const QPixmap &framePixmap);
   void InsertFrame(int index, const QPixmap &framePixmap);
