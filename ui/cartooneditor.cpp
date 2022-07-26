@@ -14,8 +14,6 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-  frames_.push_back(MakeFrame());
-
   frameWidget_ = new FrameWidget(QVector<QPixmap>(), this);
   ui->framesArea->setAlignment(Qt::AlignVCenter);
   ui->framesArea->setWidget(frameWidget_);
@@ -46,7 +44,8 @@ void CartoonEditor::AddFrame() {
     UpdateFrame();
     frames_.push_back(frames_.last());
   }
-  ++currentFrame_;
+  currentFrame_ = frames_.count() - 1;
+  qDebug() << currentFrame_ << frames_.count();
   frameWidget_->AddFrame(GetScenePixmap());
 }
 
@@ -74,8 +73,7 @@ QPixmap CartoonEditor::GetScenePixmap() const {
 }
 
 void CartoonEditor::SwitchToFrame(int index) {
-  frameWidget_->UpdateFrame(currentFrame_, GetScenePixmap());
-  frames_[currentFrame_] = MakeFrame();
+  UpdateFrame();
   currentFrame_ = index;
   LoadFrame(frames_[currentFrame_]);
 }
