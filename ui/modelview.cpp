@@ -19,5 +19,10 @@ ModelView::ModelView(QString type, QPixmap pixmap, CartoonEditor *editor, QWidge
     : QLabel(parent), ui(new Ui::ModelView), type_(std::move(type)), pixmap_(std::move(pixmap)), editor_(editor) {
   ui->setupUi(this);
   resize(pixmap_.size());
-  setPixmap(pixmap_);
+  SetWidth(width());
+}
+
+void ModelView::SetWidth(int width) {
+  setFixedWidth(width);
+  setPixmap(pixmap_.scaledToWidth(width, Qt::SmoothTransformation));
 }

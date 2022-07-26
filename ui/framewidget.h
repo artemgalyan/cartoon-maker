@@ -15,6 +15,7 @@ class FrameWidget : public QWidget {
  public:
   explicit FrameWidget(QVector<QPixmap> images = QVector<QPixmap>(), QWidget *parent = nullptr);
   void AddFrame(const QPixmap &framePixmap);
+  void InsertFrame(int index, const QPixmap &framePixmap);
   ~FrameWidget() override;
   void UpdateFrame(int index, const QPixmap &image);
  signals:

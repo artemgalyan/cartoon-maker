@@ -15,14 +15,13 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   auto factory = BodyFactory::Instance();
 
-  frameWidget_ = new FrameWidget(QVector<QPixmap>(), this);
-  modelWidget_ = new ModelWidget(factory->GetPreviews(), this, this);
+  frameWidget_ = new FrameWidget(QVector<QPixmap>(), ui->framesArea);
+  modelWidget_ = new ModelWidget(factory->GetPreviews(), this, ui->modelsArea);
   ui->framesArea->setAlignment(Qt::AlignVCenter);
   ui->framesArea->setWidget(frameWidget_);
   ui->modelsArea->setWidget(modelWidget_);
   connect(frameWidget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
   connect(ui->submitButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
-
 
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
@@ -41,12 +40,20 @@ void CartoonEditor::LoadFrame(const Frame &frame) {
 void CartoonEditor::AddFrame() {
   if (currentFrame_ == -1) {
     frames_.push_back(MakeFrame());
+    currentFrame_ = 0;
+    frameWidget_->AddFrame(GetScenePixmap());
   } else {
     UpdateFrame();
-    frames_.push_back(frames_.last());
+    if (currentFrame_ == frames_.count() - 1) {
+      frames_.push_back(frames_.last());
+      frameWidget_->AddFrame(GetScenePixmap());
+      currentFrame_ = frames_.count() - 1;
+    } else {
+      frames_.insert(currentFrame_ + 1, frames_[currentFrame_]);
+      frameWidget_->InsertFrame(currentFrame_, GetScenePixmap());
+      ++currentFrame_;
+    }
   }
-  currentFrame_ = frames_.count() - 1;
-  frameWidget_->AddFrame(GetScenePixmap());
 }
 
 Frame CartoonEditor::MakeFrame() const {
@@ -86,4 +93,13 @@ void CartoonEditor::resizeEvent(QResizeEvent *event) {
 void CartoonEditor::AddBody(Body *b) {
   bodies_.push_back(b);
   b->AddTo(ui->graphicsView->scene());
+
+  BodySnapshot addedBody(*b);
+  addedBody.SetVisible(false);
+
+  for (int i = 0; i < frames_.count(); ++i){
+    if (i != currentFrame_) {
+      frames_[i].AddBodySnapshot(addedBody);
+    }
+  }
 }

@@ -15,6 +15,7 @@ class ModelView : public QLabel {
  public:
   explicit ModelView(QString type, QPixmap pixmap, CartoonEditor * editor, QWidget *parent = nullptr);
   ~ModelView() override;
+  void SetWidth(int width);
  protected:
   void mousePressEvent(QMouseEvent *event) override;
  private:

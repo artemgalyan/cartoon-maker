@@ -5,6 +5,7 @@
 #include <QWidget>
 
 class CartoonEditor;
+class ModelView;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ModelWidget; }
@@ -16,8 +17,10 @@ class ModelWidget : public QWidget {
  public:
   explicit ModelWidget(const QVector<QPair<QString, QPixmap>>&, CartoonEditor* editor, QWidget *parent = nullptr);
   ~ModelWidget() override;
-
+ protected:
+  void resizeEvent(QResizeEvent *event) override;
  private:
+  QVector<ModelView*> modelViews_;
   Ui::ModelWidget *ui;
 };
 

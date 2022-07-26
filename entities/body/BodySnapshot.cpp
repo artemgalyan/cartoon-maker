@@ -16,3 +16,7 @@ BodySnapshot::BodySnapshot(SkeletonSnapshot skeleton, bool isVisible)
 BodySnapshot::BodySnapshot(const Body& body) :
   skeleton_(SkeletonSnapshot(body.GetSkeleton())),
   isVisible_(body.IsVisible()) {}
+
+void BodySnapshot::SetVisible(bool visible) {
+  isVisible_ = visible;
+}

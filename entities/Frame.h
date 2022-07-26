@@ -9,6 +9,7 @@ class Frame {
  public:
   explicit Frame(QVector<BodySnapshot>);
   [[nodiscard]] const QVector<BodySnapshot>& GetSnapshots() const;
+  void AddBodySnapshot(const BodySnapshot& s);
  private:
   QVector<BodySnapshot> snapshots_;
 };

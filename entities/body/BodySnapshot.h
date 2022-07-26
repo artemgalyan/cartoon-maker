@@ -10,6 +10,7 @@ class BodySnapshot {
   BodySnapshot(SkeletonSnapshot  skeleton, bool isVisible);
   [[nodiscard]] SkeletonSnapshot GetSkeleton() const;
   [[nodiscard]] bool IsVisible() const;
+  void SetVisible(bool visible);
  private:
   SkeletonSnapshot skeleton_;
   bool isVisible_ = true;
