@@ -74,10 +74,10 @@ QPixmap CartoonEditor::GetScenePixmap() const {
 }
 
 void CartoonEditor::SwitchToFrame(int index) {
+  frameWidget_->UpdateFrame(currentFrame_, GetScenePixmap());
   frames_[currentFrame_] = MakeFrame();
   currentFrame_ = index;
   LoadFrame(frames_[currentFrame_]);
-  frameWidget_->UpdateFrame(currentFrame_, GetScenePixmap());
 }
 
 void CartoonEditor::resizeEvent(QResizeEvent *event) {

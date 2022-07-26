@@ -38,7 +38,7 @@ void FrameWidget::UpdateFrame(int index, const QPixmap &image) {
   if (index >= images_.count()) {
     return;
   }
-  images_[index] = image.scaledToWidth(width());
+  images_[index] = image.scaledToWidth(images_[index].width());
   auto frameView = views_[index];
   if (frameView != nullptr)
     frameView->setPixmap(images_[index]);
