@@ -2,8 +2,6 @@
 
 #include "Skeleton.h"
 
-SkeletonSnapshot::SkeletonSnapshot(QVector<PointSnapshot> p) : snapshots_(std::move(p)) {}
-
 const QVector<PointSnapshot> &SkeletonSnapshot::GetPointSnapshots() const {
   return snapshots_;
 }
@@ -13,4 +11,7 @@ SkeletonSnapshot::SkeletonSnapshot(const Skeleton &s) {
   for (auto point : points) {
     snapshots_.push_back(PointSnapshot::CreateSnapshotOf(point));
   }
+  zIndex_ = s.GetMainPoint()->zValue();
 }
+
+double SkeletonSnapshot::GetZIndex() const { return zIndex_; }
