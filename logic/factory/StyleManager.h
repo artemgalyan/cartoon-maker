@@ -7,6 +7,7 @@ class StyleManager {
  public:
   [[nodiscard]]  QString StyleByType(const QString &type) const;
   static StyleManager *Instance();
+  static void Initialize();
  private:
   void LoadStyles();
   void LoadStyleByType(const QString &subDirName);

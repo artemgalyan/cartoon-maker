@@ -11,6 +11,7 @@ FrameWidget::FrameWidget(QVector<QPixmap> images, QWidget *parent) :
     ui(new Ui::FrameWidget) {
   ui->setupUi(this);
   auto layout = new QVBoxLayout(this);
+  layout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
   setLayout(layout);
   for (const auto &image : images_) {
     AddFrame(image);

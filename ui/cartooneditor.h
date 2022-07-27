@@ -47,6 +47,7 @@ class CartoonEditor : public QWidget {
   void SetupFrameWidget();
   void SetupModelWidget();
   void MakeConnects();
+  void SetupStyles();
 };
 
 #endif // CARTOONEDITOR_H

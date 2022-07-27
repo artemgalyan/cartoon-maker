@@ -1,1 +1,9 @@
-background: red;
+QPushButton {
+    border-radius: 25px;
+    background: green;
+     widget-animation-duration: 5000;
+}
+
+QPushButton:hover {
+    border-radius: 35px;
+}

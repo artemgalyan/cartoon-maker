@@ -11,7 +11,8 @@ ModelWidget::ModelWidget(const QVector<QPair<QString, QPixmap>> &data, CartoonEd
   if (parent != nullptr) {
     setFixedWidth(parent->width());
   }
-  auto layout = new QVBoxLayout(this);
+  auto layout = new QVBoxLayout(this);;
+  layout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
   setLayout(layout);
   for (const auto &[type, preview] : data) {
     auto widget = new ModelView(type, preview, editor, this);

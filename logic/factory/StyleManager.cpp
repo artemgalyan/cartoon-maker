@@ -16,12 +16,7 @@ StyleManager *StyleManager::Instance() {
 }
 
 QString StyleManager::StyleByType(const QString &type) const {
-  for (QMap<QString, QString>::const_iterator iterator = styles_.cbegin(); iterator != styles_.cend(); ++iterator) {
-    if (iterator.key() == type) {
-      return iterator.value();
-    }
-  }
-  return nullptr;
+  return styles_.value(type, "");
 }
 
 void StyleManager::LoadStyles() {
@@ -44,6 +39,10 @@ void StyleManager::LoadStyleByType(const QString &subDirName) {
     styles_[type] = typeStyle;
   }
   inputFile.close();
+}
+
+void StyleManager::Initialize() {
+  Instance();
 }
 
 

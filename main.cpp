@@ -1,13 +1,14 @@
 #include <QApplication>
 
-#include "ui/testwidget.h"
 #include "entities/body/factory/BodyFactory.h"
 #include "ui/cartooneditor.h"
+#include "logic/factory/StyleManager.h"
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
   BodyFactory::Initialize();
+  StyleManager::Initialize();
   CartoonEditor ce;
-  ce.showFullScreen();
+  ce.show();
   return QApplication::exec();
 }

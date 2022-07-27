@@ -2,6 +2,7 @@
 #include "ui_cartooneditor.h"
 #include "../entities/body/factory/BodyFactory.h"
 #include "CartoonScene.h"
+#include "../logic/factory/StyleManager.h"
 
 #include <QTimer>
 #include <QGraphicsScene>
@@ -9,6 +10,7 @@
 #include <QKeyEvent>
 #include <QKeyCombination>
 #include <QAbstractButton>
+#include <QScrollBar>
 
 CartoonEditor::CartoonEditor(QWidget *parent) :
     QWidget(parent),
@@ -19,6 +21,7 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   SetupModelWidget();
   MakeConnects();
 
+  SetupStyles();
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
 
@@ -37,11 +40,13 @@ void CartoonEditor::SetupModelWidget() {
   auto factory = BodyFactory::Instance();
   modelWidget_ = new ModelWidget(factory->GetPreviews(), this, ui->modelsArea);
   ui->modelsArea->setWidget(modelWidget_);
+  ui->modelsArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 void CartoonEditor::SetupFrameWidget() {
   frameWidget_ = new FrameWidget(QVector<QPixmap>(), ui->framesArea);
   ui->framesArea->setWidget(frameWidget_);
+  ui->framesArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 void CartoonEditor::SetupGraphicsView() {
@@ -156,4 +161,14 @@ void CartoonEditor::PushCurrentState() {
 void CartoonEditor::ClearPrevStates() {
   while (!previous_frames_.empty())
     previous_frames_.pop();
+}
+
+void CartoonEditor::SetupStyles() {
+  auto styleManager = StyleManager::Instance();
+  ui->submitButton->setStyleSheet(styleManager->StyleByType("button"));
+  setStyleSheet(styleManager->StyleByType("cartooneditor"));
+  ui->framesArea->setStyleSheet(styleManager->StyleByType("framewidget"));
+  ui->modelsArea->setLayoutDirection(Qt::RightToLeft);
+  ui->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
+  ui->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
 }
