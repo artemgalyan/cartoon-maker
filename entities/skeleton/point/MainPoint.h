@@ -5,12 +5,14 @@
 
 class MainPoint : public Point {
  public:
+  // TODO: Update to communicate with MainPointContextMenu
   const static QColor BorderColor;
   const static int BorderWidth = 5;
   explicit MainPoint(double x, double y);
   [[nodiscard]] QRectF boundingRect() const override;
   Point* Clone(Point* parent) const override;
  protected:
+  void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
  private:
   [[nodiscard]] QPen GetStyle() const override;

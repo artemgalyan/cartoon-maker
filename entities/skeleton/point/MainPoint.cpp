@@ -4,6 +4,9 @@
 #include <QColor>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QMenu>
+
 #include "point_utils.h"
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
@@ -31,4 +34,13 @@ QRectF MainPoint::boundingRect() const {
 
 Point *MainPoint::Clone(Point *parent) const {
   return new MainPoint(x(), y());
+}
+
+void MainPoint::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
+  setZValue(zValue() - 1);
+  auto* menu = new QMenu();
+  menu->addAction("Delete");
+  menu->addAction("Place behind");
+  menu->exec(QCursor::pos());
+  QGraphicsItem::contextMenuEvent(event);
 }
