@@ -20,7 +20,7 @@ class Body {
   void LoadSnapshot(const BodySnapshot&);
   void SetVisible(bool visible);
   [[nodiscard]] bool IsVisible() const;
-  double GetZIndex() const;
+  [[nodiscard]] double GetZIndex() const;
  private:
   static double ToDegrees(double rad);
   void ConnectImagesToPoints();
