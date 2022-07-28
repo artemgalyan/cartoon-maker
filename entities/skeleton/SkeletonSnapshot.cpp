@@ -2,11 +2,12 @@
 
 #include "Skeleton.h"
 
-const QVector<PointSnapshot> &SkeletonSnapshot::GetPointSnapshots() const {
+const QVector<PointSnapshot>& SkeletonSnapshot::GetPointSnapshots() const {
   return snapshots_;
 }
 
-SkeletonSnapshot::SkeletonSnapshot(const Skeleton &s) {
+SkeletonSnapshot::SkeletonSnapshot(const Skeleton& s) {
+  scale_ = s.GetScale();
   auto points = s.GetPoints();
   for (auto point : points) {
     snapshots_.push_back(PointSnapshot::CreateSnapshotOf(point));
@@ -15,3 +16,7 @@ SkeletonSnapshot::SkeletonSnapshot(const Skeleton &s) {
 }
 
 double SkeletonSnapshot::GetZIndex() const { return zIndex_; }
+
+double SkeletonSnapshot::GetScale() const {
+  return scale_;
+}

@@ -17,6 +17,7 @@ class Skeleton {
   void SetVisible(bool visible) const;
   void LoadSnapshot(const SkeletonSnapshot&);
   [[nodiscard]] bool IsVisible() const;
+  [[nodiscard]] double GetScale() const;
  private:
   QVector<Point*> points_;
 };

@@ -11,8 +11,10 @@ class SkeletonSnapshot {
   explicit SkeletonSnapshot(const Skeleton&);
   [[nodiscard]] const QVector<PointSnapshot>& GetPointSnapshots() const;
   [[nodiscard]] double GetZIndex() const;
+  [[nodiscard]] double GetScale() const;
  private:
   double zIndex_;
+  double scale_;
   QVector<PointSnapshot> snapshots_;
 };
 

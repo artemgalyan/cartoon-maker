@@ -50,10 +50,15 @@ void Skeleton::LoadSnapshot(const SkeletonSnapshot &snapshot) {
     return;
 
   GetMainPoint()->setPos(pointSnapshots[0].coord1, pointSnapshots[0].coord2);
+  GetMainPoint()->setScale(snapshot.GetScale());
+  GetMainPoint()->setZValue(snapshot.GetZIndex());
   for (int i = 1; i < pointSnapshots.count(); ++i) {
     auto point = dynamic_cast<SidePoint *>(points_[i]);
     if (point != nullptr) {
       point->SetAngle(pointSnapshots[i].coord2);
     }
   }
+}
+double Skeleton::GetScale() const {
+  return GetMainPoint()->scale();
 }
