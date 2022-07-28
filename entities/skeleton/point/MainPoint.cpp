@@ -8,6 +8,7 @@
 #include <QMenu>
 
 #include "point_utils.h"
+#include "../../../ui/context_menu/MainPointContextMenu.h"
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
@@ -37,10 +38,7 @@ Point *MainPoint::Clone(Point *parent) const {
 }
 
 void MainPoint::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
-  setZValue(zValue() - 1);
-  auto* menu = new QMenu();
-  menu->addAction("Delete");
-  menu->addAction("Place behind");
+  auto menu = new MainPointContextMenu(this);
   menu->exec(QCursor::pos());
   QGraphicsItem::contextMenuEvent(event);
 }
