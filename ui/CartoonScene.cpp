@@ -1,8 +1,8 @@
-
 #include "CartoonScene.h"
-#include <QGraphicsView>
 
+#include <QGraphicsView>
 #include <QPainter>
+
 CartoonScene::CartoonScene(QGraphicsView *view, QObject *parent) : view_(view), QGraphicsScene(parent) {}
 
 void CartoonScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
@@ -34,9 +34,6 @@ void CartoonScene::LoadFrame(const Frame &frame) {
   }
 }
 
-BodySnapshot CartoonScene::AddBody(Body *b) {
+void CartoonScene::AddBody(Body *b) {
   bodies_.push_back(b);
-  BodySnapshot addedBody(*b);
-  addedBody.SetVisible(false);
-  return addedBody;
 }

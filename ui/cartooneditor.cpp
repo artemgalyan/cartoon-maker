@@ -61,10 +61,6 @@ CartoonEditor::~CartoonEditor() {
 
 void CartoonEditor::LoadFrame(const Frame &frame) {
   cartoonScene_->LoadFrame(frame);
-  /*const auto &snapshots = frame.GetSnapshots();
-  for (int i = 0; i < snapshots.count(); ++i) {
-    bodies_[i]->LoadSnapshot(snapshots[i]);
-  }*/
   UpdateFrame();
 }
 
@@ -82,28 +78,10 @@ void CartoonEditor::AddFrame() {
   UpdateFrame();
 }
 
-/*Frame CartoonEditor::MakeFrame() const {
-  QVector<BodySnapshot> snaps;
-  for (const auto &body : bodies_) {
-    snaps.push_back(BodySnapshot(*body));
-  }
-  return Frame(snaps);
-}*/
-
 void CartoonEditor::UpdateFrame() {
   frames_[currentFrame_] = cartoonScene_->MakeFrame();
   frameWidget_->UpdateFrame(currentFrame_, cartoonScene_->GetScenePixmap());
 }
-
-/*QPixmap CartoonEditor::GetScenePixmap() const {
-  QImage image(ui->graphicsView->sceneRect().size().toSize(), QImage::Format_ARGB32);
-  image.fill(Qt::white);
-
-  QPainter painter(&image);
-  painter.setRenderHint(QPainter::Antialiasing);
-  ui->graphicsView->render(&painter);
-  return QPixmap::fromImage(image);
-}*/
 
 void CartoonEditor::SwitchToFrame(int index) {
   UpdateFrame();
@@ -111,19 +89,16 @@ void CartoonEditor::SwitchToFrame(int index) {
   LoadFrame(frames_[currentFrame_]);
 }
 
-void CartoonEditor::resizeEvent(QResizeEvent *event) {///////////////
+void CartoonEditor::resizeEvent(QResizeEvent *event) {
   ui->graphicsView->scene()->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
 void CartoonEditor::AddBody(Body *b) {
-
-  /*bodies_.push_back(b);
+  cartoonScene_->AddBody(b);
   BodySnapshot addedBody(*b);
-  addedBody.SetVisible(false);
-*/
-  auto addedBody = cartoonScene_->AddBody(b);
   b->AddTo(ui->graphicsView->scene());
+  addedBody.SetVisible(false);
   for (int i = 0; i < frames_.count(); ++i) {
     if (i != currentFrame_) {
       frames_[i].AddBodySnapshot(addedBody);
