@@ -6,6 +6,8 @@
 #include <QGraphicsLineItem>
 
 class SidePoint : public Point {
+  Q_OBJECT
+  Q_PROPERTY(double angle READ GetAngle WRITE SetAngle)
  public:
   const static QColor BorderColor;
   SidePoint(double radius, double angle, Point *parent);
