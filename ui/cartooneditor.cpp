@@ -105,16 +105,21 @@ void CartoonEditor::AddBody(Body *b) {
     }
   }
   ClearPrevStates();
-  PushCurrentState();
   UpdateFrame();
+  PushCurrentState();
 }
 
 void CartoonEditor::Restore() {
-  if (previous_frames_.empty())
+  if (previous_frames_.size() <= 1)
     return;
+
+  previous_frames_.pop();
   frames_ = previous_frames_.top().second;
   currentFrame_ = previous_frames_.top().first;
-  previous_frames_.pop();
+  if (previous_frames_.size() > 1) {
+    previous_frames_.pop();
+    previous_frames_.push(previous_frames_.top());
+  }
   LoadFrame(frames_[currentFrame_]);
 }
 
