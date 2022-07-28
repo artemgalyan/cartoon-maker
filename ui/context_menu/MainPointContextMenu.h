@@ -5,8 +5,6 @@
 #include "../../entities/skeleton/point/MainPoint.h"
 
 class MainPointContextMenu : public QMenu {
-  // TODO: Create this class
-  // fields: scale, delete, zIndex
  public:
   explicit MainPointContextMenu(MainPoint *point);
  private slots:
