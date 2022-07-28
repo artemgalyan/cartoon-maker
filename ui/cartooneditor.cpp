@@ -6,7 +6,6 @@
 
 #include <QTimer>
 #include <QGraphicsScene>
-#include <QPainter>
 #include <QKeyEvent>
 #include <QKeyCombination>
 #include <QAbstractButton>
@@ -50,8 +49,8 @@ void CartoonEditor::SetupFrameWidget() {
 }
 
 void CartoonEditor::SetupGraphicsView() {
-  auto cartoonScene = new CartoonScene();
-  ui->graphicsView->setScene(cartoonScene);
+  cartoonScene_ = new CartoonScene(ui->graphicsView);
+  ui->graphicsView->setScene(cartoonScene_);
   ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
@@ -61,41 +60,42 @@ CartoonEditor::~CartoonEditor() {
 }
 
 void CartoonEditor::LoadFrame(const Frame &frame) {
-  const auto &snapshots = frame.GetSnapshots();
+  cartoonScene_->LoadFrame(frame);
+  /*const auto &snapshots = frame.GetSnapshots();
   for (int i = 0; i < snapshots.count(); ++i) {
     bodies_[i]->LoadSnapshot(snapshots[i]);
-  }
+  }*/
   UpdateFrame();
 }
 
 void CartoonEditor::AddFrame() {
   ClearPrevStates();
   if (frames_.isEmpty()) {
-    frames_.push_back(MakeFrame());
+    frames_.push_back(cartoonScene_->MakeFrame());
     currentFrame_ = 0;
-    frameWidget_->AddFrame(GetScenePixmap());
+    frameWidget_->AddFrame(cartoonScene_->GetScenePixmap());
   } else {
     frames_.insert(currentFrame_ + 1, frames_[currentFrame_]);
-    frameWidget_->InsertFrame(currentFrame_, GetScenePixmap());
+    frameWidget_->InsertFrame(currentFrame_, cartoonScene_->GetScenePixmap());
     ++currentFrame_;
   }
   UpdateFrame();
 }
 
-Frame CartoonEditor::MakeFrame() const {
+/*Frame CartoonEditor::MakeFrame() const {
   QVector<BodySnapshot> snaps;
   for (const auto &body : bodies_) {
     snaps.push_back(BodySnapshot(*body));
   }
   return Frame(snaps);
-}
+}*/
 
 void CartoonEditor::UpdateFrame() {
-  frames_[currentFrame_] = MakeFrame();
-  frameWidget_->UpdateFrame(currentFrame_, GetScenePixmap());
+  frames_[currentFrame_] = cartoonScene_->MakeFrame();
+  frameWidget_->UpdateFrame(currentFrame_, cartoonScene_->GetScenePixmap());
 }
 
-QPixmap CartoonEditor::GetScenePixmap() const {
+/*QPixmap CartoonEditor::GetScenePixmap() const {
   QImage image(ui->graphicsView->sceneRect().size().toSize(), QImage::Format_ARGB32);
   image.fill(Qt::white);
 
@@ -103,7 +103,7 @@ QPixmap CartoonEditor::GetScenePixmap() const {
   painter.setRenderHint(QPainter::Antialiasing);
   ui->graphicsView->render(&painter);
   return QPixmap::fromImage(image);
-}
+}*/
 
 void CartoonEditor::SwitchToFrame(int index) {
   UpdateFrame();
@@ -111,18 +111,19 @@ void CartoonEditor::SwitchToFrame(int index) {
   LoadFrame(frames_[currentFrame_]);
 }
 
-void CartoonEditor::resizeEvent(QResizeEvent *event) {
+void CartoonEditor::resizeEvent(QResizeEvent *event) {///////////////
   ui->graphicsView->scene()->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
 void CartoonEditor::AddBody(Body *b) {
-  bodies_.push_back(b);
-  b->AddTo(ui->graphicsView->scene());
 
+  /*bodies_.push_back(b);
   BodySnapshot addedBody(*b);
   addedBody.SetVisible(false);
-
+*/
+  auto addedBody = cartoonScene_->AddBody(b);
+  b->AddTo(ui->graphicsView->scene());
   for (int i = 0; i < frames_.count(); ++i) {
     if (i != currentFrame_) {
       frames_[i].AddBodySnapshot(addedBody);

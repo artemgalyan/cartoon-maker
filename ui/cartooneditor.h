@@ -7,6 +7,7 @@
 #include "framewidget.h"
 #include "../entities/Frame.h"
 #include "modelwidget.h"
+#include "CartoonScene.h"
 
 namespace Ui {
 class CartoonEditor;
@@ -14,12 +15,11 @@ class CartoonEditor;
 
 class CartoonEditor : public QWidget {
  Q_OBJECT
-
  public:
   explicit CartoonEditor(QWidget *parent = nullptr);
   ~CartoonEditor() override;
   void LoadFrame(const Frame &frame);
-  [[nodiscard]] Frame MakeFrame() const;
+  //[[nodiscard]] Frame MakeFrame() const;
   void AddBody(Body *);
  private slots:
   void AddFrame();
@@ -27,14 +27,16 @@ class CartoonEditor : public QWidget {
   void UpdateFrame();
   void SceneChanged();
  private:
+
   void ClearPrevStates();
   void PushCurrentState();
   void LoadState(int selectedFrame, QVector<Frame> frames);
   void Restore();
-  [[nodiscard]] QPixmap GetScenePixmap() const;
+  //[[nodiscard]] QPixmap GetScenePixmap() const;
+  CartoonScene* cartoonScene_;
   FrameWidget *frameWidget_;
   ModelWidget *modelWidget_;
-  QVector<Body *> bodies_;
+  ///QVector<Body *> bodies_;
   QVector<Frame> frames_;
   std::stack<QPair<int, QVector<Frame>>> previous_frames_;
   int currentFrame_ = -1;
