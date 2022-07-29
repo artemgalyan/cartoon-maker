@@ -68,3 +68,18 @@ void FrameWidget::InsertFrame(int index, const QPixmap &framePixmap) {
     views_[i]->SetIndex(views_[i]->GetIndex() + 1);
   }
 }
+
+void FrameWidget::DeleteFrameAt(int index) {
+  layout()->removeWidget(views_[index]);
+  views_[index]->hide();
+  delete views_[index];
+  views_.removeAt(index);
+  images_.removeAt(index);
+  for (int i = index; i < views_.count(); ++i) {
+    views_[i]->SetIndex(views_[i]->GetIndex() - 1);
+  }
+}
+
+QVector<QPixmap> FrameWidget::GetImages() const {
+  return images_;
+}

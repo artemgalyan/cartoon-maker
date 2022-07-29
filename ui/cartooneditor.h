@@ -25,9 +25,13 @@ class CartoonEditor : public QWidget {
   void resizeEvent(QResizeEvent *event) override;
  private slots:
   void AddFrame();
+  void DeleteFrame();
+  void SaveCartoon();
+  void LoadCartoon();
   void SwitchToFrame(int index);
   void UpdateFrame();
   void SceneChanged();
+  void Play();
  private:
   void SetupGraphicsView();
   void SetupFrameWidget();

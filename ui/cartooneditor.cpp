@@ -11,7 +11,7 @@
 #include <QAbstractButton>
 #include <QScrollBar>
 
-CartoonEditor::CartoonEditor(QWidget *parent) :
+CartoonEditor::CartoonEditor(QWidget* parent) :
     QWidget(parent),
     ui(new Ui::CartoonEditor) {
   ui->setupUi(this);
@@ -25,14 +25,18 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
 }
 
 void CartoonEditor::MakeConnects() {
-  auto scene = dynamic_cast<CartoonScene *>(ui->graphicsView->scene());
+  auto scene = dynamic_cast<CartoonScene*>(ui->graphicsView->scene());
   if (scene == nullptr) {
     throw std::logic_error("Scene is not CartoonScene*");
   }
 
   connect(frameWidget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
-  connect(ui->submitButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
   connect(scene, SIGNAL(Changed()), this, SLOT(SceneChanged()));
+  connect(ui->PlayButton, SIGNAL(clicked(bool)), this, SLOT(Play()));
+  connect(ui->AddFrameButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
+  connect(ui->DeleteFrameButton, SIGNAL(clicked(bool)), this, SLOT(DeleteFrame()));
+  connect(ui->SaveCartoonButton, SIGNAL(clicked(bool)), this, SLOT(SaveCartoon()));
+  connect(ui->LoadCartoonButton, SIGNAL(clicked(bool)), this, SLOT(LoadCartoon()));
 }
 
 void CartoonEditor::SetupModelWidget() {
@@ -59,7 +63,7 @@ CartoonEditor::~CartoonEditor() {
   delete ui;
 }
 
-void CartoonEditor::LoadFrame(const Frame &frame) {
+void CartoonEditor::LoadFrame(const Frame& frame) {
   cartoonScene_->LoadFrame(frame);
   UpdateFrame();
 }
@@ -89,12 +93,12 @@ void CartoonEditor::SwitchToFrame(int index) {
   LoadFrame(frames_[currentFrame_]);
 }
 
-void CartoonEditor::resizeEvent(QResizeEvent *event) {
+void CartoonEditor::resizeEvent(QResizeEvent* event) {
   ui->graphicsView->scene()->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
-void CartoonEditor::AddBody(Body *b) {
+void CartoonEditor::AddBody(Body* b) {
   cartoonScene_->AddBody(b);
   BodySnapshot addedBody(*b);
   b->AddTo(ui->graphicsView->scene());
@@ -123,7 +127,7 @@ void CartoonEditor::Restore() {
   LoadFrame(frames_[currentFrame_]);
 }
 
-void CartoonEditor::keyPressEvent(QKeyEvent *event) {
+void CartoonEditor::keyPressEvent(QKeyEvent* event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
   }
@@ -146,10 +150,36 @@ void CartoonEditor::ClearPrevStates() {
 
 void CartoonEditor::SetupStyles() {
   auto styleManager = StyleManager::Instance();
-  ui->submitButton->setStyleSheet(styleManager->StyleByType("button"));
   setStyleSheet(styleManager->StyleByType("cartooneditor"));
   ui->framesArea->setStyleSheet(styleManager->StyleByType("framewidget"));
   ui->modelsArea->setLayoutDirection(Qt::RightToLeft);
   ui->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
   ui->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
+}
+
+void CartoonEditor::Play() {
+  // TODO: Implement the method
+}
+
+void CartoonEditor::DeleteFrame() {
+  frames_.remove(currentFrame_);
+  frameWidget_->DeleteFrameAt(currentFrame_);
+  --currentFrame_;
+  if (currentFrame_ < 0) {
+    currentFrame_ = 0;
+  }
+  if (frames_.empty()) {
+    cartoonScene_->Clear();
+    AddFrame();
+  }
+  LoadFrame(frames_[currentFrame_]);
+  PushCurrentState();
+}
+
+void CartoonEditor::SaveCartoon() {
+  // TODO: Implement the method
+}
+
+void CartoonEditor::LoadCartoon() {
+  // TODO: Implement the method
 }

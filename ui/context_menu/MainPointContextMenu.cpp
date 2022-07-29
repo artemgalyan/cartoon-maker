@@ -1,5 +1,6 @@
 #include "MainPointContextMenu.h"
 #include "widgets/scaleslider/ScaleSlider.h"
+#include "../CartoonScene.h"
 
 MainPointContextMenu::MainPointContextMenu(MainPoint *point) : point_(point) {
   setMinimumWidth(200);
@@ -21,16 +22,27 @@ MainPointContextMenu::MainPointContextMenu(MainPoint *point) : point_(point) {
 
 void MainPointContextMenu::DeletePoint() {
   point_->hide();
+  ForceSceneUpdate();
 }
 
 void MainPointContextMenu::ScaleChanged(double new_scale) {
   point_->setScale(new_scale);
+  ForceSceneUpdate();
 }
 
 void MainPointContextMenu::PlaceBehind() {
   point_->setZValue(point_->zValue() - 1);
+  ForceSceneUpdate();
 }
 
 void MainPointContextMenu::PlaceInFront() {
   point_->setZValue(point_->zValue() + 1);
+  ForceSceneUpdate();
+}
+
+void MainPointContextMenu::ForceSceneUpdate() const {
+  auto scene = dynamic_cast<CartoonScene*>(point_->scene());
+  if (scene == nullptr)
+    return;
+  scene->ForceUpdateSignal();
 }

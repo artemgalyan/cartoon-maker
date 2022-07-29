@@ -18,7 +18,9 @@ class FrameWidget : public QWidget {
   void AddFrame(const QPixmap &framePixmap);
   void InsertFrame(int index, const QPixmap &framePixmap);
   ~FrameWidget() override;
+  void DeleteFrameAt(int index);
   void UpdateFrame(int index, const QPixmap &image);
+  QVector<QPixmap> GetImages() const;
  signals:
   void FrameSelected(int index);
  private slots:

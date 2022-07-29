@@ -13,6 +13,7 @@ class MainPointContextMenu : public QMenu {
   void PlaceBehind();
   void PlaceInFront();
  private:
+  void ForceSceneUpdate() const;
   MainPoint *const point_;
 };
 

@@ -12,6 +12,8 @@ class CartoonScene : public QGraphicsScene {
   void LoadFrame(const Frame &frame);
   [[nodiscard]] QPixmap GetScenePixmap() const;
   void AddBody(Body *);
+  void Clear();
+  void ForceUpdateSignal();
  signals:
   void Changed();
  protected:

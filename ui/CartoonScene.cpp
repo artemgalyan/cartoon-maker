@@ -37,3 +37,12 @@ void CartoonScene::LoadFrame(const Frame &frame) {
 void CartoonScene::AddBody(Body *b) {
   bodies_.push_back(b);
 }
+
+void CartoonScene::Clear() {
+  bodies_.clear();
+  clear();
+}
+
+void CartoonScene::ForceUpdateSignal() {
+  emit Changed();
+}
