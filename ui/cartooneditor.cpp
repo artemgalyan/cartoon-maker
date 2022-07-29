@@ -158,6 +158,8 @@ void CartoonEditor::SetupStyles() {
   ui->PlayButton->setIcon(QIcon(":/res/icons/playbutton.png"));
   ui->AddFrameButton->setIcon(QIcon(":/res/icons/addbutton.png"));
   ui->DeleteFrameButton->setIcon(QIcon(":/res/icons/deletebutton.png"));
+  ui->SaveCartoonButton->setIcon(QIcon(":/res/icons/savebutton.png"));
+  ui->LoadCartoonButton->setIcon(QIcon(":/res/icons/loadbutton.png"));
 }
 
 void CartoonEditor::Play() {
