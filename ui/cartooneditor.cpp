@@ -155,6 +155,9 @@ void CartoonEditor::SetupStyles() {
   ui->modelsArea->setLayoutDirection(Qt::RightToLeft);
   ui->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
   ui->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
+  ui->PlayButton->setIcon(QIcon(":/res/icons/playbutton.png"));
+  ui->AddFrameButton->setIcon(QIcon(":/res/icons/addbutton.png"));
+  ui->DeleteFrameButton->setIcon(QIcon(":/res/icons/deletebutton.png"));
 }
 
 void CartoonEditor::Play() {

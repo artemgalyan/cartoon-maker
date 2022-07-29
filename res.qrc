@@ -16,5 +16,9 @@
         <file>res/styles/framewidget/style.txt</file>
         <file>res/styles/modelswidget/style.txt</file>
         <file>res/styles/scene/style.txt</file>
+        <file>res/styles/pics/style.txt</file>
+        <file>res/icons/playbutton.png</file>
+        <file>res/icons/addbutton.png</file>
+        <file>res/icons/deletebutton.png</file>
     </qresource>
 </RCC>

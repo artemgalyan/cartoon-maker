@@ -1,1 +1,14 @@
-background: #333333;
+QWidget {
+    background: #333333;
+    border-radius: 20px;
+}
+
+QPushButton {
+    background: white;
+    border-radius: 10px;
+    qproperty-iconSize: 35px;
+}
+
+QLabel {
+    border-radius: 20px;
+}

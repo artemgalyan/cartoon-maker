@@ -10,6 +10,11 @@
     <height>731</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>14</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -38,7 +43,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>183</width>
+          <width>127</width>
           <height>705</height>
          </rect>
         </property>
@@ -64,8 +69,23 @@
         <layout class="QHBoxLayout" name="buttonsLayout">
          <item>
           <widget class="QPushButton" name="PlayButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
            <property name="text">
             <string>Play</string>
+           </property>
+           <property name="autoRepeat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -120,7 +140,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>183</width>
+          <width>127</width>
           <height>705</height>
          </rect>
         </property>
