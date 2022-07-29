@@ -10,6 +10,14 @@
         <file>res/models/Pig/3.png</file>
         <file>res/models/Pig/skeleton.txt</file>
         <file>res/models/Pig/preview.png</file>
+        <file>res/models/Bug/1.png</file>
+        <file>res/models/Bug/2.png</file>
+        <file>res/models/Bug/3.png</file>
+        <file>res/models/Bug/4.png</file>
+        <file>res/models/Bug/5.png</file>
+        <file>res/models/Bug/6.png</file>
+        <file>res/models/Bug/preview.png</file>
+        <file>res/models/Bug/skeleton.txt</file>
         <file>res/styles/button/style.txt</file>
         <file>res/styles/slider/style.txt</file>
         <file>res/styles/cartooneditor/style.txt</file>
