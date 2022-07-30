@@ -135,6 +135,10 @@ void CartoonEditor::keyPressEvent(QKeyEvent* event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
   }
+  if (event->matches(QKeySequence::Find)) {
+    auto cartoon = ExportCartoon();
+    LoadCartoon(cartoon);
+  }
   QWidget::keyPressEvent(event);
 }
 
@@ -210,9 +214,14 @@ void CartoonEditor::LoadCartoon(const Cartoon& cartoon) {
   auto factory = BodyFactory::Instance();
   auto bodies_list = cartoon.GetEntities();
   for (const auto& body: bodies_list) {
-    cartoon_scene_->AddBody(factory->CreateByType(body));
+    auto b = factory->CreateByType(body);
+    cartoon_scene_->AddBody(b);
+    b->AddTo(cartoon_scene_);
   }
   frames_ = cartoon.GetFrames();
-  current_frame_ = 0;
-  LoadFrame(frames_[0]);
+  for (int i = 0; i < frames_.count(); ++i) {
+    cartoon_scene_->LoadFrame(frames_[i]);
+    frame_widget_->AddFrame(cartoon_scene_->GetScenePixmap());
+  }
+  SwitchToFrame(0);
 }
