@@ -14,6 +14,9 @@ class CartoonScene : public QGraphicsScene {
   void AddBody(Body *);
   void Clear();
   void ForceUpdateSignal();
+  [[nodiscard]] const QVector<Body*>& GetBodies() const;
+  void LeaveNFirstBodiesOnTheScene(int n);
+  [[nodiscard]] QVector<QString> GetEntitiesNameList() const;
  signals:
   void Changed();
  protected:

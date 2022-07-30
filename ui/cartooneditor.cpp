@@ -13,8 +13,8 @@
 
 CartoonEditor::CartoonEditor(QWidget* parent) :
     QWidget(parent),
-    ui(new Ui::CartoonEditor) {
-  ui->setupUi(this);
+    ui_(new Ui::CartoonEditor) {
+  ui_->setupUi(this);
   SetupGraphicsView();
   SetupFrameWidget();
   SetupModelWidget();
@@ -25,106 +25,110 @@ CartoonEditor::CartoonEditor(QWidget* parent) :
 }
 
 void CartoonEditor::MakeConnects() {
-  auto scene = dynamic_cast<CartoonScene*>(ui->graphicsView->scene());
+  auto scene = dynamic_cast<CartoonScene*>(ui_->graphicsView->scene());
   if (scene == nullptr) {
     throw std::logic_error("Scene is not CartoonScene*");
   }
 
-  connect(frameWidget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
+  connect(frame_widget_, SIGNAL(FrameSelected(int)), this, SLOT(SwitchToFrame(int)));
   connect(scene, SIGNAL(Changed()), this, SLOT(SceneChanged()));
-  connect(ui->PlayButton, SIGNAL(clicked(bool)), this, SLOT(Play()));
-  connect(ui->AddFrameButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
-  connect(ui->DeleteFrameButton, SIGNAL(clicked(bool)), this, SLOT(DeleteFrame()));
-  connect(ui->SaveCartoonButton, SIGNAL(clicked(bool)), this, SLOT(SaveCartoon()));
-  connect(ui->LoadCartoonButton, SIGNAL(clicked(bool)), this, SLOT(LoadCartoon()));
+  connect(ui_->PlayButton, SIGNAL(clicked(bool)), this, SLOT(Play()));
+  connect(ui_->AddFrameButton, SIGNAL(clicked(bool)), this, SLOT(AddFrame()));
+  connect(ui_->DeleteFrameButton, SIGNAL(clicked(bool)), this, SLOT(DeleteFrame()));
+  connect(ui_->SaveCartoonButton, SIGNAL(clicked(bool)), this, SLOT(SaveCartoon()));
+  connect(ui_->LoadCartoonButton, SIGNAL(clicked(bool)), this, SLOT(LoadCartoon()));
 }
 
 void CartoonEditor::SetupModelWidget() {
   auto factory = BodyFactory::Instance();
-  modelWidget_ = new ModelWidget(factory->GetPreviews(), this, ui->modelsArea);
-  ui->modelsArea->setWidget(modelWidget_);
-  ui->modelsArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  model_widget_ = new ModelWidget(factory->GetPreviews(), this, ui_->modelsArea);
+  ui_->modelsArea->setWidget(model_widget_);
+  ui_->modelsArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 void CartoonEditor::SetupFrameWidget() {
-  frameWidget_ = new FrameWidget(QVector<QPixmap>(), ui->framesArea);
-  ui->framesArea->setWidget(frameWidget_);
-  ui->framesArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  frame_widget_ = new FrameWidget(QVector<QPixmap>(), ui_->framesArea);
+  ui_->framesArea->setWidget(frame_widget_);
+  ui_->framesArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 void CartoonEditor::SetupGraphicsView() {
-  cartoonScene_ = new CartoonScene(ui->graphicsView);
-  ui->graphicsView->setScene(cartoonScene_);
-  ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  cartoon_scene_ = new CartoonScene(ui_->graphicsView);
+  ui_->graphicsView->setScene(cartoon_scene_);
+  ui_->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  ui_->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 CartoonEditor::~CartoonEditor() {
-  delete ui;
+  delete ui_;
 }
 
 void CartoonEditor::LoadFrame(const Frame& frame) {
-  cartoonScene_->LoadFrame(frame);
+  cartoon_scene_->LoadFrame(frame);
   UpdateFrame();
 }
 
 void CartoonEditor::AddFrame() {
-  ClearPrevStates();
   if (frames_.isEmpty()) {
-    frames_.push_back(cartoonScene_->MakeFrame());
-    currentFrame_ = 0;
-    frameWidget_->AddFrame(cartoonScene_->GetScenePixmap());
+    frames_.push_back(cartoon_scene_->MakeFrame());
+    current_frame_ = 0;
+    frame_widget_->AddFrame(cartoon_scene_->GetScenePixmap());
   } else {
-    frames_.insert(currentFrame_ + 1, frames_[currentFrame_]);
-    frameWidget_->InsertFrame(currentFrame_, cartoonScene_->GetScenePixmap());
-    ++currentFrame_;
+    frames_.insert(current_frame_ + 1, frames_[current_frame_]);
+    frame_widget_->InsertFrame(current_frame_, cartoon_scene_->GetScenePixmap());
+    ++current_frame_;
   }
   UpdateFrame();
+  PushCurrentState();
 }
 
 void CartoonEditor::UpdateFrame() {
-  frames_[currentFrame_] = cartoonScene_->MakeFrame();
-  frameWidget_->UpdateFrame(currentFrame_, cartoonScene_->GetScenePixmap());
+  frames_[current_frame_] = cartoon_scene_->MakeFrame();
+  frame_widget_->UpdateFrame(current_frame_, cartoon_scene_->GetScenePixmap());
 }
 
 void CartoonEditor::SwitchToFrame(int index) {
   UpdateFrame();
-  currentFrame_ = index;
-  LoadFrame(frames_[currentFrame_]);
+  current_frame_ = index;
+  LoadFrame(frames_[current_frame_]);
 }
 
 void CartoonEditor::resizeEvent(QResizeEvent* event) {
-  ui->graphicsView->scene()->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
+  ui_->graphicsView->scene()->setSceneRect(0, 0, ui_->graphicsView->width(), ui_->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
 void CartoonEditor::AddBody(Body* b) {
-  cartoonScene_->AddBody(b);
+  cartoon_scene_->AddBody(b);
   BodySnapshot addedBody(*b);
-  b->AddTo(ui->graphicsView->scene());
+  b->AddTo(ui_->graphicsView->scene());
   addedBody.SetVisible(false);
   for (int i = 0; i < frames_.count(); ++i) {
-    if (i != currentFrame_) {
+    if (i != current_frame_) {
       frames_[i].AddBodySnapshot(addedBody);
     }
   }
-  ClearPrevStates();
   UpdateFrame();
   PushCurrentState();
 }
 
 void CartoonEditor::Restore() {
-  if (previous_frames_.size() <= 1)
+  if (snapshots_.isEmpty() || snapshots_.count() == 1)
     return;
 
-  previous_frames_.pop();
-  frames_ = previous_frames_.top().second;
-  currentFrame_ = previous_frames_.top().first;
-  if (previous_frames_.size() > 1) {
-    previous_frames_.pop();
-    previous_frames_.push(previous_frames_.top());
+  snapshots_.pop();
+  auto snapshot = snapshots_.top();
+  frames_ = snapshot.frames;
+  cartoon_scene_->LeaveNFirstBodiesOnTheScene(snapshot.number_of_bodies);
+  frame_widget_->Clear();
+  if (snapshot.frames.count() != snapshot.images.count()) {
+    return;
   }
-  LoadFrame(frames_[currentFrame_]);
+  for (const auto& image : snapshot.images) {
+    frame_widget_->AddFrame(image);
+  }
+  current_frame_ = snapshot.current_frame;
+  LoadFrame(frames_[current_frame_]);
 }
 
 void CartoonEditor::keyPressEvent(QKeyEvent* event) {
@@ -140,26 +144,21 @@ void CartoonEditor::SceneChanged() {
 }
 
 void CartoonEditor::PushCurrentState() {
-  previous_frames_.push({currentFrame_, frames_});
-}
-
-void CartoonEditor::ClearPrevStates() {
-  while (!previous_frames_.empty())
-    previous_frames_.pop();
+  snapshots_.push(GetSnapshot());
 }
 
 void CartoonEditor::SetupStyles() {
   auto styleManager = StyleManager::Instance();
   setStyleSheet(styleManager->StyleByType("cartooneditor"));
-  ui->framesArea->setStyleSheet(styleManager->StyleByType("framewidget"));
-  ui->modelsArea->setLayoutDirection(Qt::RightToLeft);
-  ui->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
-  ui->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
-  ui->PlayButton->setIcon(QIcon(":/res/icons/playbutton.png"));
-  ui->AddFrameButton->setIcon(QIcon(":/res/icons/addbutton.png"));
-  ui->DeleteFrameButton->setIcon(QIcon(":/res/icons/deletebutton.png"));
-  ui->SaveCartoonButton->setIcon(QIcon(":/res/icons/savebutton.png"));
-  ui->LoadCartoonButton->setIcon(QIcon(":/res/icons/loadbutton.png"));
+  ui_->framesArea->setStyleSheet(styleManager->StyleByType("framewidget"));
+  ui_->modelsArea->setLayoutDirection(Qt::RightToLeft);
+  ui_->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
+  ui_->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
+  ui_->PlayButton->setIcon(QIcon(":/res/icons/playbutton.png"));
+  ui_->AddFrameButton->setIcon(QIcon(":/res/icons/addbutton.png"));
+  ui_->DeleteFrameButton->setIcon(QIcon(":/res/icons/deletebutton.png"));
+  ui_->SaveCartoonButton->setIcon(QIcon(":/res/icons/savebutton.png"));
+  ui_->LoadCartoonButton->setIcon(QIcon(":/res/icons/loadbutton.png"));
 }
 
 void CartoonEditor::Play() {
@@ -167,17 +166,17 @@ void CartoonEditor::Play() {
 }
 
 void CartoonEditor::DeleteFrame() {
-  frames_.remove(currentFrame_);
-  frameWidget_->DeleteFrameAt(currentFrame_);
-  --currentFrame_;
-  if (currentFrame_ < 0) {
-    currentFrame_ = 0;
+  frames_.remove(current_frame_);
+  frame_widget_->DeleteFrameAt(current_frame_);
+  --current_frame_;
+  if (current_frame_ < 0) {
+    current_frame_ = 0;
   }
   if (frames_.empty()) {
-    cartoonScene_->Clear();
+    cartoon_scene_->Clear();
     AddFrame();
   }
-  LoadFrame(frames_[currentFrame_]);
+  LoadFrame(frames_[current_frame_]);
   PushCurrentState();
 }
 
@@ -187,4 +186,17 @@ void CartoonEditor::SaveCartoon() {
 
 void CartoonEditor::LoadCartoon() {
   // TODO: Implement the method
+}
+
+void CartoonEditor::Clear() {
+  cartoon_scene_->Clear();
+  frames_.clear();
+  frame_widget_->Clear();
+  snapshots_.clear();
+}
+
+CartoonEditorSnapshot CartoonEditor::GetSnapshot() const {
+  int number_of_bodies = cartoon_scene_->GetBodies().count();
+  const auto& images = frame_widget_->GetImages();
+  return {current_frame_, number_of_bodies, frames_, images};
 }

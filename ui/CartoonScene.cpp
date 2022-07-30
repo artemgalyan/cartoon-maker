@@ -46,3 +46,23 @@ void CartoonScene::Clear() {
 void CartoonScene::ForceUpdateSignal() {
   emit Changed();
 }
+
+const QVector<Body*>& CartoonScene::GetBodies() const {
+  return bodies_;
+}
+
+void CartoonScene::LeaveNFirstBodiesOnTheScene(int n) {
+  auto index = n;
+  while (index != bodies_.count()) {
+    bodies_[index]->SetVisible(false);
+    delete bodies_[index];
+    bodies_.remove(index);
+  }
+}
+QVector<QString> CartoonScene::GetEntities() {
+  QVector<QString> result;
+  for (const auto& body: bodies_) {
+    result.push_back(body->GetType());
+  }
+  return result;
+}

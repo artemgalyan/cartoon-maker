@@ -83,3 +83,13 @@ void FrameWidget::DeleteFrameAt(int index) {
 QVector<QPixmap> FrameWidget::GetImages() const {
   return images_;
 }
+
+void FrameWidget::Clear() {
+  for (auto widget: views_) {
+    layout()->removeWidget(widget);
+    widget->hide();
+    delete widget;
+  }
+  views_.clear();
+  images_.clear();
+}

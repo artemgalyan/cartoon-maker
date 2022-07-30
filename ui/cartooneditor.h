@@ -2,12 +2,14 @@
 #define CARTOONEDITOR_H
 
 #include <QWidget>
-#include <stack>
+#include <QStack>
 
 #include "framewidget.h"
 #include "../entities/Frame.h"
 #include "modelwidget.h"
 #include "CartoonScene.h"
+#include "../entities/Cartoon.h"
+#include "../logic/CartoonEditorSnaphot.h"
 
 namespace Ui {
 class CartoonEditor;
@@ -20,6 +22,7 @@ class CartoonEditor : public QWidget {
   ~CartoonEditor() override;
   void LoadFrame(const Frame &frame);
   void AddBody(Body *);
+  void Clear();
  protected:
   void keyPressEvent(QKeyEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
@@ -33,22 +36,21 @@ class CartoonEditor : public QWidget {
   void SceneChanged();
   void Play();
  private:
+  [[nodiscard]] CartoonEditorSnapshot GetSnapshot() const;
   void SetupGraphicsView();
   void SetupFrameWidget();
   void SetupModelWidget();
   void MakeConnects();
   void SetupStyles();
-  void ClearPrevStates();
   void PushCurrentState();
-  void LoadState(int selectedFrame, QVector<Frame> frames);
   void Restore();
-  CartoonScene *cartoonScene_;
-  FrameWidget *frameWidget_;
-  ModelWidget *modelWidget_;
+  QStack<CartoonEditorSnapshot> snapshots_;
+  CartoonScene *cartoon_scene_;
+  FrameWidget *frame_widget_;
+  ModelWidget *model_widget_;
   QVector<Frame> frames_;
-  std::stack<QPair<int, QVector<Frame>>> previous_frames_;
-  int currentFrame_ = -1;
-  Ui::CartoonEditor *ui;
+  int current_frame_ = -1;
+  Ui::CartoonEditor *ui_;
 };
 
 #endif // CARTOONEDITOR_H

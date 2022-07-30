@@ -21,6 +21,7 @@ class FrameWidget : public QWidget {
   void DeleteFrameAt(int index);
   void UpdateFrame(int index, const QPixmap &image);
   QVector<QPixmap> GetImages() const;
+  void Clear();
  signals:
   void FrameSelected(int index);
  private slots:
