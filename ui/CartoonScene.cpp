@@ -59,10 +59,11 @@ void CartoonScene::LeaveNFirstBodiesOnTheScene(int n) {
     bodies_.remove(index);
   }
 }
-QVector<QString> CartoonScene::GetEntities() {
+
+QVector<QString> CartoonScene::GetEntitiesNameList() const {
   QVector<QString> result;
   for (const auto& body: bodies_) {
-    result.push_back(body->GetType());
+    result.push_back(body->GetBodyType());
   }
   return result;
 }
