@@ -21,7 +21,7 @@ add_executable(cartoon_maker main.cpp entities/skeleton/point/point.h
     entities/skeleton/Skeleton.cpp entities/skeleton/Skeleton.h entities/body/Body.cpp
     entities/body/Body.h logic/images/Image.cpp logic/images/Image.h
     entities/body/factory/BodyFactory.cpp entities/body/factory/BodyFactory.h
-    entities/skeleton/point/PointSnapshot.cpp entities/skeleton/point/PointSnapshot.h
+    entities/skeleton/point/PointSnapshot.h
     entities/skeleton/point/point_utils.h entities/skeleton/SkeletonSnapshot.cpp
     entities/skeleton/SkeletonSnapshot.h entities/body/BodySnapshot.cpp
     entities/body/BodySnapshot.h entities/Frame.cpp entities/Frame.h
