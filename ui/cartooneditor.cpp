@@ -213,5 +213,6 @@ void CartoonEditor::LoadCartoon(const Cartoon& cartoon) {
     cartoon_scene_->AddBody(factory->CreateByType(body));
   }
   frames_ = cartoon.GetFrames();
-  SwitchToFrame(0);
+  current_frame_ = 0;
+  LoadFrame(frames_[0]);
 }
