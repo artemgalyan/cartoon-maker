@@ -100,12 +100,12 @@ void CartoonEditor::resizeEvent(QResizeEvent* event) {
 
 void CartoonEditor::AddBody(Body* b) {
   cartoon_scene_->AddBody(b);
-  BodySnapshot addedBody(*b);
+  BodySnapshot added_body(*b);
   b->AddTo(ui_->graphicsView->scene());
-  addedBody.SetVisible(false);
+  added_body.SetVisible(false);
   for (int i = 0; i < frames_.count(); ++i) {
     if (i != current_frame_) {
-      frames_[i].AddBodySnapshot(addedBody);
+      frames_[i].AddBodySnapshot(added_body);
     }
   }
   UpdateFrame();
@@ -148,12 +148,12 @@ void CartoonEditor::PushCurrentState() {
 }
 
 void CartoonEditor::SetupStyles() {
-  auto styleManager = StyleManager::Instance();
-  setStyleSheet(styleManager->StyleByType("cartooneditor"));
-  ui_->framesArea->setStyleSheet(styleManager->StyleByType("framewidget"));
+  auto style_manager = StyleManager::Instance();
+  setStyleSheet(style_manager->StyleByType("cartooneditor"));
+  ui_->framesArea->setStyleSheet(style_manager->StyleByType("framewidget"));
   ui_->modelsArea->setLayoutDirection(Qt::RightToLeft);
-  ui_->modelsArea->setStyleSheet(styleManager->StyleByType("framewidget"));
-  ui_->graphicsView->setStyleSheet(styleManager->StyleByType("scene"));
+  ui_->modelsArea->setStyleSheet(style_manager->StyleByType("framewidget"));
+  ui_->graphicsView->setStyleSheet(style_manager->StyleByType("scene"));
   ui_->PlayButton->setIcon(QIcon(":/res/icons/playbutton.png"));
   ui_->AddFrameButton->setIcon(QIcon(":/res/icons/addbutton.png"));
   ui_->DeleteFrameButton->setIcon(QIcon(":/res/icons/deletebutton.png"));
@@ -199,4 +199,19 @@ CartoonEditorSnapshot CartoonEditor::GetSnapshot() const {
   int number_of_bodies = cartoon_scene_->GetBodies().count();
   const auto& images = frame_widget_->GetImages();
   return {current_frame_, number_of_bodies, frames_, images};
+}
+
+Cartoon CartoonEditor::ExportCartoon() const {
+  return Cartoon(cartoon_scene_->GetEntitiesNameList(), frames_);
+}
+
+void CartoonEditor::LoadCartoon(const Cartoon& cartoon) {
+  Clear();
+  auto factory = BodyFactory::Instance();
+  auto bodies_list = cartoon.GetEntities();
+  for (const auto& body: bodies_list) {
+    cartoon_scene_->AddBody(factory->CreateByType(body));
+  }
+  frames_ = cartoon.GetFrames();
+  SwitchToFrame(0);
 }

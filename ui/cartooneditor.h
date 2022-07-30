@@ -23,6 +23,8 @@ class CartoonEditor : public QWidget {
   void LoadFrame(const Frame &frame);
   void AddBody(Body *);
   void Clear();
+  [[nodiscard]] Cartoon ExportCartoon() const;
+  void LoadCartoon(const Cartoon&);
  protected:
   void keyPressEvent(QKeyEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
