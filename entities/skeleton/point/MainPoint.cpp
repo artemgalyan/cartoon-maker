@@ -9,6 +9,7 @@
 
 #include "point_utils.h"
 #include "../../../ui/context_menu/MainPointContextMenu.h"
+#include "../../../logic/factory/StyleManager.h"
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
@@ -39,6 +40,8 @@ Point *MainPoint::Clone(Point *parent) const {
 
 void MainPoint::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
   auto menu = new MainPointContextMenu(this);
+  auto manager = StyleManager::Instance();
+  menu->setStyleSheet(manager->StyleByType("contextmenu"));
   menu->exec(QCursor::pos());
   QGraphicsItem::contextMenuEvent(event);
 }
