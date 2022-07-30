@@ -7,10 +7,6 @@
 struct PointSnapshot {
   double coord1;
   double coord2;
-  const bool isStraightMovement;
-  explicit PointSnapshot(const MainPoint&);
-  explicit PointSnapshot(const SidePoint&);
-  static PointSnapshot CreateSnapshotOf(const Point* point);
 };
 
 #endif //CARTOON_MAKER_ENTITIES_SKELETON_POINT_POINTSNAPSHOT_H_

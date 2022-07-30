@@ -6,7 +6,7 @@
 #include <QPen>
 #include <QColor>
 
-class MainPoint;
+class PointSnapshot;
 
 class Point : public QGraphicsObject {
  public:
@@ -14,7 +14,8 @@ class Point : public QGraphicsObject {
   const static int PaintRadius = 5;
   Point(double x, double y, Point *parent = nullptr);
   [[nodiscard]] QRectF boundingRect() const override;
-  virtual Point *Clone(Point *parent = nullptr) const = 0;
+  virtual Point *Clone(Point *parent) const = 0;
+  [[nodiscard]] virtual PointSnapshot CreateSnapshot() const = 0;
  private:
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
   [[nodiscard]] virtual QPen GetStyle() const = 0;

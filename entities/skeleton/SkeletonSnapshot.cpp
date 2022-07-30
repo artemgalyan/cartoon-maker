@@ -10,7 +10,7 @@ SkeletonSnapshot::SkeletonSnapshot(const Skeleton& s) {
   scale_ = s.GetScale();
   auto points = s.GetPoints();
   for (auto point : points) {
-    snapshots_.push_back(PointSnapshot::CreateSnapshotOf(point));
+    snapshots_.push_back(point->CreateSnapshot());
   }
   zIndex_ = s.GetMainPoint()->zValue();
 }

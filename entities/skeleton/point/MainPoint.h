@@ -11,6 +11,7 @@ class MainPoint : public Point {
   explicit MainPoint(double x, double y);
   [[nodiscard]] QRectF boundingRect() const override;
   Point* Clone(Point* parent) const override;
+  [[nodiscard]] PointSnapshot CreateSnapshot() const override;
  protected:
   void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

@@ -10,6 +10,7 @@
 #include "point_utils.h"
 #include "../../../ui/context_menu/MainPointContextMenu.h"
 #include "../../../logic/factory/StyleManager.h"
+#include "PointSnapshot.h"
 
 const QColor MainPoint::BorderColor = QColor("#E74C3C");
 
@@ -44,4 +45,8 @@ void MainPoint::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
   menu->setStyleSheet(manager->StyleByType("contextmenu"));
   menu->exec(QCursor::pos());
   QGraphicsItem::contextMenuEvent(event);
+}
+
+PointSnapshot MainPoint::CreateSnapshot() const {
+  return {x(), y()};
 }

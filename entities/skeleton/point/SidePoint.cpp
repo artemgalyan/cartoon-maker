@@ -1,5 +1,7 @@
 #include "SidePoint.h"
 #include "point_utils.h"
+#include "PointSnapshot.h"
+
 #include <QGraphicsSceneMouseEvent>
 
 const QColor SidePoint::BorderColor = QColor("#79553D");
@@ -17,7 +19,7 @@ SidePoint::SidePoint(const double radius, double angle, Point *parent) : Point(r
                                                                                    parent),
                                                                              radius_(radius),
                                                                              angle_(angle) {
-  lineToParent_ = new QGraphicsLineItem(QLineF(QPointF(0, 0), pos()), parentItem());
+  line_to_parent_ = new QGraphicsLineItem(QLineF(QPointF(0, 0), pos()), parentItem());
   connect(this, &QGraphicsObject::xChanged, this, &SidePoint::onPosChanged);
   connect(this, &QGraphicsObject::yChanged, this, &SidePoint::onPosChanged);
 }
@@ -61,5 +63,9 @@ void SidePoint::UpdatePos() {
 }
 
 void SidePoint::UpdateLineToParent() {
-  lineToParent_->setLine(QLineF(QPointF(0, 0), pos()));
+  line_to_parent_->setLine(QLineF(QPointF(0, 0), pos()));
+}
+
+PointSnapshot SidePoint::CreateSnapshot() const {
+  return {radius_, angle_};
 }
