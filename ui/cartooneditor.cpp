@@ -135,10 +135,6 @@ void CartoonEditor::keyPressEvent(QKeyEvent* event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
   }
-  if (event->matches(QKeySequence::Find)) {
-    auto cartoon = ExportCartoon();
-    LoadCartoon(cartoon);
-  }
   QWidget::keyPressEvent(event);
 }
 
