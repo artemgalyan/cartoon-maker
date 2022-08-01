@@ -10,8 +10,10 @@
 #include <QKeyCombination>
 #include <QAbstractButton>
 #include <QScrollBar>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 
-CartoonEditor::CartoonEditor(QWidget* parent) :
+CartoonEditor::CartoonEditor(QWidget *parent) :
     QWidget(parent),
     ui_(new Ui::CartoonEditor) {
   ui_->setupUi(this);
@@ -19,13 +21,37 @@ CartoonEditor::CartoonEditor(QWidget* parent) :
   SetupFrameWidget();
   SetupModelWidget();
   MakeConnects();
+  parallel_animation_group = new QParallelAnimationGroup(cartoon_scene_);
 
+  animationGroup->addPause(1000);
+  animator_ = new Animator(cartoon_scene_, frames_);
+  auto map_ = animator_->GetPropertiesMap();
+  for (QMap<int, QVector<QPropertyAnimation *>>::iterator it = map_.begin(); it != map_.end(); ++it) {
+    auto groupProperties = it.value();
+    QSequentialAnimationGroup *currentAnimationGroup = new QSequentialAnimationGroup(cartoon_scene_);
+    for (int i = 0; i < groupProperties.size(); i++) {
+      currentAnimationGroup->addAnimation(groupProperties[i]);
+    }
+    parallel_animation_group->addAnimation(currentAnimationGroup);
+  }
+
+  /*for(auto const &ent1 : mymap) {
+auto const &outer_key = ent1.first;
+auto const &inner_map = ent1.second;
+for(auto const &ent2 : inner_map) {
+  auto const &inner_key   = ent2.first;
+  auto const &inner_value = ent2.second;
+}
+}*/
+  //animationGroup = new QSequentialAnimationGroup(cartoon_scene_);
+  //animationGroup->addPause(1000);//////////////
+  //parallel_animation_group= new QParallelAnimationGroup(cartoon_scene_);
   SetupStyles();
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
 
 void CartoonEditor::MakeConnects() {
-  auto scene = dynamic_cast<CartoonScene*>(ui_->graphicsView->scene());
+  auto scene = dynamic_cast<CartoonScene *>(ui_->graphicsView->scene());
   if (scene == nullptr) {
     throw std::logic_error("Scene is not CartoonScene*");
   }
@@ -63,7 +89,7 @@ CartoonEditor::~CartoonEditor() {
   delete ui_;
 }
 
-void CartoonEditor::LoadFrame(const Frame& frame) {
+void CartoonEditor::LoadFrame(const Frame &frame) {
   cartoon_scene_->LoadFrame(frame);
   UpdateFrame();
 }
@@ -93,12 +119,12 @@ void CartoonEditor::SwitchToFrame(int index) {
   LoadFrame(frames_[current_frame_]);
 }
 
-void CartoonEditor::resizeEvent(QResizeEvent* event) {
+void CartoonEditor::resizeEvent(QResizeEvent *event) {
   ui_->graphicsView->scene()->setSceneRect(0, 0, ui_->graphicsView->width(), ui_->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
-void CartoonEditor::AddBody(Body* b) {
+void CartoonEditor::AddBody(Body *b) {
   cartoon_scene_->AddBody(b);
   BodySnapshot added_body(*b);
   b->AddTo(ui_->graphicsView->scene());
@@ -124,14 +150,14 @@ void CartoonEditor::Restore() {
   if (snapshot.frames.count() != snapshot.images.count()) {
     return;
   }
-  for (const auto& image : snapshot.images) {
+  for (const auto &image : snapshot.images) {
     frame_widget_->AddFrame(image);
   }
   current_frame_ = snapshot.current_frame;
   LoadFrame(frames_[current_frame_]);
 }
 
-void CartoonEditor::keyPressEvent(QKeyEvent* event) {
+void CartoonEditor::keyPressEvent(QKeyEvent *event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
   }
@@ -162,8 +188,58 @@ void CartoonEditor::SetupStyles() {
 }
 
 void CartoonEditor::Play() {
+//  AnimatorPlay();
+
+  /// animationGroup->start();
+  /// parallel_animation_group->start();
+
   // TODO: Implement the method
+
+
 }
+/*void CartoonEditor::AnimatorPlay(){
+
+
+
+  for(int i=0; i<frames_.size()-1;i++ ){
+
+    auto bodiesSnapshotCurrent =frames_[i].GetSnapshots();
+    auto bodiesSnapshotNext =frames_[i+1].GetSnapshots();
+
+    for(int j=0; j< bodiesSnapshotCurrent.size(); j++ ){
+      if (bodiesSnapshotCurrent[j].IsVisible()==bodiesSnapshotNext[j].IsVisible()){
+        auto currentSkeleton = bodiesSnapshotCurrent[j].GetSkeleton().GetPointSnapshots();
+        auto nextSkeleton = bodiesSnapshotNext[j].GetSkeleton().GetPointSnapshots();
+
+        auto animal = cartoon_scene_->GetBodies()[0];
+
+
+        QPropertyAnimation *pPosAnimation1 = new QPropertyAnimation(animal->GetSkeleton().GetMainPoint(), "pos");
+        pPosAnimation1->setDuration(1000);
+        pPosAnimation1->setStartValue(QPointF(currentSkeleton[0].coord1,currentSkeleton[0].coord2));
+        pPosAnimation1->setEndValue(QPoint(nextSkeleton[0].coord1, nextSkeleton[0].coord2));
+        pPosAnimation1->setEasingCurve(QEasingCurve::Linear);
+        animationGroup->addAnimation(pPosAnimation1);
+        auto bodySkeleton= animal->GetSkeleton().GetPoints();
+
+         for(int k=1; k< bodySkeleton.size(); k++){
+           QPropertyAnimation *pPosAnimation2 = new QPropertyAnimation(bodySkeleton[k], "pos");
+           pPosAnimation2->setDuration(1000);
+           pPosAnimation2->setStartValue;
+           pPosAnimation2->setEndValue(QPoint(nextSkeleton[k].coord1, nextSkeleton[k].coord2));
+           pPosAnimation2->setEasingCurve(QEasingCurve::Linear);
+           animationGroup->addAnimation(pPosAnimation2);
+
+        }
+      }
+
+      // else
+    }
+
+   /// animationGroup->addAnimation(parallel_animation_group);
+
+  }
+}*/
 
 void CartoonEditor::DeleteFrame() {
   frames_.remove(current_frame_);
@@ -197,7 +273,7 @@ void CartoonEditor::Clear() {
 
 CartoonEditorSnapshot CartoonEditor::GetSnapshot() const {
   int number_of_bodies = cartoon_scene_->GetBodies().count();
-  const auto& images = frame_widget_->GetImages();
+  const auto &images = frame_widget_->GetImages();
   return {current_frame_, number_of_bodies, frames_, images};
 }
 
@@ -205,11 +281,11 @@ Cartoon CartoonEditor::ExportCartoon() const {
   return Cartoon(cartoon_scene_->GetEntitiesNameList(), frames_);
 }
 
-void CartoonEditor::LoadCartoon(const Cartoon& cartoon) {
+void CartoonEditor::LoadCartoon(const Cartoon &cartoon) {
   Clear();
   auto factory = BodyFactory::Instance();
   auto bodies_list = cartoon.GetEntities();
-  for (const auto& body: bodies_list) {
+  for (const auto &body : bodies_list) {
     auto b = factory->CreateByType(body);
     cartoon_scene_->AddBody(b);
     b->AddTo(cartoon_scene_);

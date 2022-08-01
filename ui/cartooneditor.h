@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QStack>
+#include <QSequentialAnimationGroup>
+#include <QParallelAnimationGroup>
 
 #include "framewidget.h"
 #include "../entities/Frame.h"
@@ -10,6 +12,7 @@
 #include "CartoonScene.h"
 #include "../entities/Cartoon.h"
 #include "../logic/CartoonEditorSnaphot.h"
+#include "../logic/Animator.h"
 
 namespace Ui {
 class CartoonEditor;
@@ -53,6 +56,10 @@ class CartoonEditor : public QWidget {
   QVector<Frame> frames_;
   int current_frame_ = -1;
   Ui::CartoonEditor *ui_;
+  Animator * animator_;
+  QSequentialAnimationGroup* animationGroup;
+  QParallelAnimationGroup * parallel_animation_group;
+  void AnimatorPlay();
 };
 
 #endif // CARTOONEDITOR_H
