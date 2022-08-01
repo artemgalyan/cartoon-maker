@@ -10,21 +10,29 @@ bool BodySnapshot::IsVisible() const {
   return isVisible_;
 }
 
-BodySnapshot::BodySnapshot(SkeletonSnapshot skeleton, bool isVisible)
-    : skeleton_(std::move(skeleton)), isVisible_(isVisible), zIndex_(skeleton_.GetZIndex()) {}
+BodySnapshot::BodySnapshot(SkeletonSnapshot skeleton, bool is_visible)
+    : skeleton_(std::move(skeleton)), isVisible_(is_visible) {}
 
 BodySnapshot::BodySnapshot(const Body& body) :
   skeleton_(SkeletonSnapshot(body.GetSkeleton())),
-  isVisible_(body.IsVisible()), zIndex_(skeleton_.GetZIndex()) {}
+  isVisible_(body.IsVisible()) {}
 
 void BodySnapshot::SetVisible(bool visible) {
   isVisible_ = visible;
 }
 
 double BodySnapshot::GetZIndex() const {
-  return zIndex_;
+  return skeleton_.GetZIndex();
 }
 
 void BodySnapshot::SetZIndex(double z) {
-  zIndex_ = z;
+  skeleton_.SetZIndex(z);
+}
+
+double BodySnapshot::GetScale() const {
+  return skeleton_.GetScale();
+}
+
+void BodySnapshot::SetScale(double scale) {
+  skeleton_.SetScale(scale);
 }

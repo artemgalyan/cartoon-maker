@@ -20,3 +20,10 @@ double SkeletonSnapshot::GetZIndex() const { return zIndex_; }
 double SkeletonSnapshot::GetScale() const {
   return scale_;
 }
+
+void SkeletonSnapshot::SetZIndex(double z) {
+  zIndex_ = z;
+}
+void SkeletonSnapshot::SetScale(double s) {
+  scale_ = s;
+}

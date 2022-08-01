@@ -7,17 +7,18 @@
 class BodySnapshot {
  public:
   // TODO: Add scale field
-  BodySnapshot(const Body&);
-  BodySnapshot(SkeletonSnapshot  skeleton, bool isVisible);
+  explicit BodySnapshot(const Body&);
+  BodySnapshot(SkeletonSnapshot  skeleton, bool is_visible);
   [[nodiscard]] SkeletonSnapshot GetSkeleton() const;
   [[nodiscard]] bool IsVisible() const;
   void SetVisible(bool visible);
   [[nodiscard]] double GetZIndex() const;
   void SetZIndex(double z);
+  [[nodiscard]] double GetScale() const;
+  void SetScale(double scale);
  private:
   SkeletonSnapshot skeleton_;
   bool isVisible_ = true;
-  double zIndex_;
 };
 
 #endif //CARTOON_MAKER_ENTITIES_BODY_BODYSNAPSHOT_H_

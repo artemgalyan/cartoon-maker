@@ -3,27 +3,27 @@
 
 #include <exception>
 
-Skeleton::Skeleton(QVector<Point *> points) : points_(std::move(points)) {}
+Skeleton::Skeleton(QVector<Point*> points) : points_(std::move(points)) {}
 
-const QVector<Point *> &Skeleton::GetPoints() const {
+const QVector<Point*>& Skeleton::GetPoints() const {
   return points_;
 }
 
-MainPoint *Skeleton::GetMainPoint() const {
+MainPoint* Skeleton::GetMainPoint() const {
   if (points_.isEmpty()) {
     throw std::logic_error("Points are empty!");
   }
-  return dynamic_cast<MainPoint *>(points_[0]);
+  return dynamic_cast<MainPoint*>(points_[0]);
 }
 
-Skeleton::Skeleton(const Skeleton &s) noexcept {
+Skeleton::Skeleton(const Skeleton& s) noexcept {
   points_ = s.points_;
 }
 
 Skeleton Skeleton::Clone() const {
-  QVector<Point *> points;
+  QVector<Point*> points;
   for (int i = 0; i < points_.size(); ++i) {
-    Point *parent = nullptr;
+    Point* parent = nullptr;
     if (i != 0) {
       auto parentIndex = points_.indexOf(points_[i]->parentItem());
       parent = points[parentIndex];
@@ -44,7 +44,7 @@ bool Skeleton::IsVisible() const {
   return GetMainPoint()->isVisible();
 }
 
-void Skeleton::LoadSnapshot(const SkeletonSnapshot &snapshot) {
+void Skeleton::LoadSnapshot(const SkeletonSnapshot& snapshot) {
   auto pointSnapshots = snapshot.GetPointSnapshots();
   if (pointSnapshots.isEmpty())
     return;
@@ -53,7 +53,7 @@ void Skeleton::LoadSnapshot(const SkeletonSnapshot &snapshot) {
   GetMainPoint()->setScale(snapshot.GetScale());
   GetMainPoint()->setZValue(snapshot.GetZIndex());
   for (int i = 1; i < pointSnapshots.count(); ++i) {
-    auto point = dynamic_cast<SidePoint *>(points_[i]);
+    auto point = dynamic_cast<SidePoint*>(points_[i]);
     if (point != nullptr) {
       point->SetAngle(pointSnapshots[i].coord2);
     }
