@@ -27,7 +27,7 @@ class CartoonEditor : public QWidget {
   void AddBody(Body *);
   void Clear();
   [[nodiscard]] Cartoon ExportCartoon() const;
-  void LoadCartoon(const Cartoon&);
+  void LoadCartoon(const Cartoon &);
  protected:
   void keyPressEvent(QKeyEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
@@ -56,10 +56,6 @@ class CartoonEditor : public QWidget {
   QVector<Frame> frames_;
   int current_frame_ = -1;
   Ui::CartoonEditor *ui_;
-  Animator * animator_;
-  QSequentialAnimationGroup* animationGroup;
-  QParallelAnimationGroup * parallel_animation_group;
-  void AnimatorPlay();
 };
 
 #endif // CARTOONEDITOR_H

@@ -10,9 +10,7 @@
 #include <QKeyCombination>
 #include <QAbstractButton>
 #include <QScrollBar>
-#include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
-
 CartoonEditor::CartoonEditor(QWidget *parent) :
     QWidget(parent),
     ui_(new Ui::CartoonEditor) {
@@ -21,7 +19,10 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   SetupFrameWidget();
   SetupModelWidget();
   MakeConnects();
-  parallel_animation_group = new QParallelAnimationGroup(cartoon_scene_);
+  SetupStyles();
+  QTimer::singleShot(100, [this] { AddFrame(); });
+}
+/*parallel_animation_group = new QParallelAnimationGroup(cartoon_scene_);
 
   animationGroup->addPause(1000);
   animator_ = new Animator(cartoon_scene_, frames_);
@@ -32,23 +33,7 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
     for (int i = 0; i < groupProperties.size(); i++) {
       currentAnimationGroup->addAnimation(groupProperties[i]);
     }
-    parallel_animation_group->addAnimation(currentAnimationGroup);
-  }
-
-  /*for(auto const &ent1 : mymap) {
-auto const &outer_key = ent1.first;
-auto const &inner_map = ent1.second;
-for(auto const &ent2 : inner_map) {
-  auto const &inner_key   = ent2.first;
-  auto const &inner_value = ent2.second;
-}
-}*/
-  //animationGroup = new QSequentialAnimationGroup(cartoon_scene_);
-  //animationGroup->addPause(1000);//////////////
-  //parallel_animation_group= new QParallelAnimationGroup(cartoon_scene_);
-  SetupStyles();
-  QTimer::singleShot(100, [this] { AddFrame(); });
-}
+    parallel_animation_group->addAnimation(currentAnimationGroup);*/
 
 void CartoonEditor::MakeConnects() {
   auto scene = dynamic_cast<CartoonScene *>(ui_->graphicsView->scene());
@@ -188,13 +173,9 @@ void CartoonEditor::SetupStyles() {
 }
 
 void CartoonEditor::Play() {
-//  AnimatorPlay();
-
-  /// animationGroup->start();
-  /// parallel_animation_group->start();
-
   // TODO: Implement the method
-
+  auto *animator = new Animator(cartoon_scene_, frames_);
+  animator->GetParallelAnimation()->start();
 
 }
 /*void CartoonEditor::AnimatorPlay(){
