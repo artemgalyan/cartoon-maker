@@ -60,6 +60,14 @@ QSequentialAnimationGroup* Animator::MainPointProperties(MainPoint* mainPoint,
     parallelAnimation->addAnimation(scaleAnimation);
 
     // TODO: Animate z-value;
+    auto* zValueAnimation = new QPropertyAnimation(mainPoint, "z");
+    double startValue = frames_[i].GetSnapshots()[bodyIndex].GetZIndex();
+    double endValue = frames_[i + 1].GetSnapshots()[bodyIndex].GetZIndex();
+    zValueAnimation->setDuration(1000);
+    zValueAnimation->setStartValue(startValue);
+    zValueAnimation->setEndValue(endValue);
+    parallelAnimation->addAnimation(zValueAnimation);
+
 
     auto visibleAnimation = new VisibilityAnimation(frames_[i].GetSnapshots()[bodyIndex].IsVisible(), mainPoint);
     parallelAnimation->addAnimation(visibleAnimation);
