@@ -1,6 +1,6 @@
-
 #include "Animator.h"
 #include "../entities/skeleton/point/point_utils.h"
+#include "bool_animation/VisibilityAnimation.h"
 
 #include <utility>
 #include <QGraphicsOpacityEffect>
@@ -61,13 +61,12 @@ QSequentialAnimationGroup* Animator::MainPointProperties(MainPoint* mainPoint,
 
     // TODO: Animate z-value;
 
-    QPropertyAnimation* opacityAnimation = new QPropertyAnimation(mainPoint, "opacity");
-    opacityAnimation->setDuration(0);
-    opacityAnimation->setStartValue(frames_[i].GetSnapshots()[bodyIndex].IsVisible());
-    opacityAnimation->setEndValue(frames_[i].GetSnapshots()[bodyIndex].IsVisible());
-    parallelAnimation->addAnimation(opacityAnimation);
+    auto visibleAnimation = new VisibilityAnimation(frames_[i].GetSnapshots()[bodyIndex].IsVisible(), mainPoint);
+    parallelAnimation->addAnimation(visibleAnimation);
     sequantialAnimation->addAnimation(parallelAnimation);
   }
+  auto visibleAnimation = new VisibilityAnimation(frames_.last().GetSnapshots()[bodyIndex].IsVisible(), mainPoint);
+  sequantialAnimation->addAnimation(visibleAnimation);
   return sequantialAnimation;
 }
 
