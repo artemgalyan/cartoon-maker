@@ -173,7 +173,6 @@ void CartoonEditor::SetupStyles() {
 }
 
 void CartoonEditor::Play() {
-  // TODO: Implement the method
   SetAllEnabled(false);
   if (animator_ != nullptr)
     disconnect(animator_, &Animator::AnimationFinished, this, &CartoonEditor::AnimationFinished);
@@ -241,10 +240,18 @@ void CartoonEditor::LoadCartoon(const Cartoon &cartoon) {
 }
 
 void CartoonEditor::SetAllEnabled(bool value) {
-  // TODO: Implement this method
+  ui_->modelsArea->setEnabled(value);
+  ui_->framesArea->setEnabled(value);
+  ui_->AddFrameButton->setEnabled(value);
+  ui_->DeleteFrameButton->setEnabled(value);
+  ui_->SaveCartoonButton->setEnabled(value);
+  ui_->PlayButton->setEnabled(value);
+  ui_->LoadCartoonButton->setEnabled(value);
+
 }
 
 void CartoonEditor::AnimationFinished() {
   SetAllEnabled(true);
-  SwitchToFrame(frames_.count() - 1);
+  current_frame_= frames_.count()-1;
+  LoadFrame(frames_.last());
 }
