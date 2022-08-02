@@ -9,28 +9,17 @@
 class Animator {
   // TODO: Create this class
  public:
-  Animator(CartoonScene *cartoonScene, QVector<Frame> frames);
-  QParallelAnimationGroup *GetParallelAnimation();
-  //void Play();
-
+  Animator(CartoonScene* cartoonScene, QVector<Frame> frames);
+  void Play();
  private:
-  void MakeParallelAnimation();
-  QSequentialAnimationGroup *MakeBodyAnimation(QVector<QPropertyAnimation *> bodyProperties);
-  void BodiesProperties();
-  QVector<QPropertyAnimation *> SkeletonProperties(Body *body, int bodyIndex);
-  QVector<QPropertyAnimation *> MainPointProperties(MainPoint *mainPoint,
-                                                    int bodyIndex,
-                                                    QVector<QPropertyAnimation *> propertyAnimationOfBody);
-  QVector<QPropertyAnimation *> SidePointProperties(Point *sidePoint,
-                                                    int bodyIndex,
-                                                    int pointIndex,
-                                                    QVector<QPropertyAnimation *> propertyAnimationOfBody);
-  //void FillPropertiesForBody(int index, Body *&body);
+  void MakeAnimation();
+  QParallelAnimationGroup* SkeletonProperties(Body* body, int bodyIndex);
+  QSequentialAnimationGroup* MainPointProperties(MainPoint* mainPoint, int bodyIndex);
+  QSequentialAnimationGroup* SidePointProperties(SidePoint* sidePoint, int bodyIndex, int pointIndex);
   QVector<Frame> frames_;
-  QMap<int, QVector<QPropertyAnimation *>> propertyAnimationForBodies;
-  CartoonScene *cartoonScene_;
-  //QSequentialAnimationGroup* animationGroup;
-  QParallelAnimationGroup *parallelAnimationGroup;
+  CartoonScene* cartoonScene_;
+  QParallelAnimationGroup* parallelAnimationGroup_;
+
 };
 
 #endif //CARTOON_MAKER_LOGIC_ANIMATOR_H_

@@ -21,16 +21,16 @@ class CartoonEditor;
 class CartoonEditor : public QWidget {
  Q_OBJECT
  public:
-  explicit CartoonEditor(QWidget *parent = nullptr);
+  explicit CartoonEditor(QWidget* parent = nullptr);
   ~CartoonEditor() override;
-  void LoadFrame(const Frame &frame);
-  void AddBody(Body *);
+  void LoadFrame(const Frame& frame);
+  void AddBody(Body*);
   void Clear();
   [[nodiscard]] Cartoon ExportCartoon() const;
-  void LoadCartoon(const Cartoon &);
+  void LoadCartoon(const Cartoon&);
  protected:
-  void keyPressEvent(QKeyEvent *event) override;
-  void resizeEvent(QResizeEvent *event) override;
+  void keyPressEvent(QKeyEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
  private slots:
   void AddFrame();
   void DeleteFrame();
@@ -50,12 +50,13 @@ class CartoonEditor : public QWidget {
   void PushCurrentState();
   void Restore();
   QStack<CartoonEditorSnapshot> snapshots_;
-  CartoonScene *cartoon_scene_;
-  FrameWidget *frame_widget_;
-  ModelWidget *model_widget_;
+  CartoonScene* cartoon_scene_;
+  FrameWidget* frame_widget_;
+  ModelWidget* model_widget_;
+  Animator* animator_ = nullptr;
   QVector<Frame> frames_;
   int current_frame_ = -1;
-  Ui::CartoonEditor *ui_;
+  Ui::CartoonEditor* ui_;
 };
 
 #endif // CARTOONEDITOR_H

@@ -72,6 +72,7 @@ void CartoonEditor::SetupGraphicsView() {
 
 CartoonEditor::~CartoonEditor() {
   delete ui_;
+  delete animator_;
 }
 
 void CartoonEditor::LoadFrame(const Frame &frame) {
@@ -174,53 +175,12 @@ void CartoonEditor::SetupStyles() {
 
 void CartoonEditor::Play() {
   // TODO: Implement the method
-  auto *animator = new Animator(cartoon_scene_, frames_);
-  animator->GetParallelAnimation()->start();
+  delete animator_;
+  animator_ = new Animator(cartoon_scene_, frames_);
+  animator_->Play();
 
 }
-/*void CartoonEditor::AnimatorPlay(){
 
-
-
-  for(int i=0; i<frames_.size()-1;i++ ){
-
-    auto bodiesSnapshotCurrent =frames_[i].GetSnapshots();
-    auto bodiesSnapshotNext =frames_[i+1].GetSnapshots();
-
-    for(int j=0; j< bodiesSnapshotCurrent.size(); j++ ){
-      if (bodiesSnapshotCurrent[j].IsVisible()==bodiesSnapshotNext[j].IsVisible()){
-        auto currentSkeleton = bodiesSnapshotCurrent[j].GetSkeleton().GetPointSnapshots();
-        auto nextSkeleton = bodiesSnapshotNext[j].GetSkeleton().GetPointSnapshots();
-
-        auto animal = cartoon_scene_->GetBodies()[0];
-
-
-        QPropertyAnimation *pPosAnimation1 = new QPropertyAnimation(animal->GetSkeleton().GetMainPoint(), "pos");
-        pPosAnimation1->setDuration(1000);
-        pPosAnimation1->setStartValue(QPointF(currentSkeleton[0].coord1,currentSkeleton[0].coord2));
-        pPosAnimation1->setEndValue(QPoint(nextSkeleton[0].coord1, nextSkeleton[0].coord2));
-        pPosAnimation1->setEasingCurve(QEasingCurve::Linear);
-        animationGroup->addAnimation(pPosAnimation1);
-        auto bodySkeleton= animal->GetSkeleton().GetPoints();
-
-         for(int k=1; k< bodySkeleton.size(); k++){
-           QPropertyAnimation *pPosAnimation2 = new QPropertyAnimation(bodySkeleton[k], "pos");
-           pPosAnimation2->setDuration(1000);
-           pPosAnimation2->setStartValue;
-           pPosAnimation2->setEndValue(QPoint(nextSkeleton[k].coord1, nextSkeleton[k].coord2));
-           pPosAnimation2->setEasingCurve(QEasingCurve::Linear);
-           animationGroup->addAnimation(pPosAnimation2);
-
-        }
-      }
-
-      // else
-    }
-
-   /// animationGroup->addAnimation(parallel_animation_group);
-
-  }
-}*/
 
 void CartoonEditor::DeleteFrame() {
   frames_.remove(current_frame_);
