@@ -72,7 +72,6 @@ void CartoonEditor::SetupGraphicsView() {
 
 CartoonEditor::~CartoonEditor() {
   delete ui_;
-  delete animator_;
 }
 
 void CartoonEditor::LoadFrame(const Frame &frame) {
@@ -175,12 +174,14 @@ void CartoonEditor::SetupStyles() {
 
 void CartoonEditor::Play() {
   // TODO: Implement the method
+  SetAllEnabled(false);
+  if (animator_ != nullptr)
+    disconnect(animator_, &Animator::AnimationFinished, this, &CartoonEditor::AnimationFinished);
   delete animator_;
   animator_ = new Animator(cartoon_scene_, frames_);
+  connect(animator_, &Animator::AnimationFinished, this, &CartoonEditor::AnimationFinished);
   animator_->Play();
-
 }
-
 
 void CartoonEditor::DeleteFrame() {
   frames_.remove(current_frame_);
@@ -237,4 +238,13 @@ void CartoonEditor::LoadCartoon(const Cartoon &cartoon) {
     frame_widget_->AddFrame(cartoon_scene_->GetScenePixmap());
   }
   SwitchToFrame(0);
+}
+
+void CartoonEditor::SetAllEnabled(bool value) {
+  // TODO: Implement this method
+}
+
+void CartoonEditor::AnimationFinished() {
+  SetAllEnabled(true);
+  SwitchToFrame(frames_.count() - 1);
 }

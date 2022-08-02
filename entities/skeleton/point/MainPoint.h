@@ -4,6 +4,7 @@
 #include "point.h"
 
 class MainPoint : public Point {
+  Q_PROPERTY(double zvalue READ zValue WRITE setZValue);
  public:
   // TODO: Update to communicate with MainPointContextMenu
   const static QColor BorderColor;

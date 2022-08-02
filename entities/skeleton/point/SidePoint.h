@@ -18,7 +18,7 @@ class SidePoint : public Point {
   void SetAngle(double angle);
   void UpdatePos();
   void UpdateLineToParent();
-  PointSnapshot CreateSnapshot() const override;
+  [[nodiscard]] PointSnapshot CreateSnapshot() const override;
  protected:
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
  private slots:

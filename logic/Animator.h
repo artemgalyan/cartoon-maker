@@ -6,12 +6,16 @@
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 #include "../ui/CartoonScene.h"
-class Animator {
+class Animator : public QObject {
   // TODO: Create this class
+  Q_OBJECT
  public:
   Animator(CartoonScene* cartoonScene, QVector<Frame> frames);
   void Play();
+ signals:
+  void AnimationFinished();
  private:
+  static double NormalizeSecondAngle(double first_angle, double second_angle);
   void MakeAnimation();
   QParallelAnimationGroup* SkeletonProperties(Body* body, int bodyIndex);
   QSequentialAnimationGroup* MainPointProperties(MainPoint* mainPoint, int bodyIndex);

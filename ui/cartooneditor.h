@@ -40,7 +40,10 @@ class CartoonEditor : public QWidget {
   void UpdateFrame();
   void SceneChanged();
   void Play();
+ private slots:
+  void AnimationFinished();
  private:
+  void SetAllEnabled(bool value);
   [[nodiscard]] CartoonEditorSnapshot GetSnapshot() const;
   void SetupGraphicsView();
   void SetupFrameWidget();
