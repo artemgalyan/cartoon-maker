@@ -6,7 +6,6 @@
 
 class BodySnapshot {
  public:
-  // TODO: Add scale field
   explicit BodySnapshot(const Body&);
   BodySnapshot(SkeletonSnapshot  skeleton, bool is_visible);
   [[nodiscard]] SkeletonSnapshot GetSkeleton() const;
