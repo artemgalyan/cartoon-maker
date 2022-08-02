@@ -67,3 +67,7 @@ bool Body::IsVisible() const {
 double Body::GetZIndex() const {
   return skeleton_.GetMainPoint()->zValue();
 }
+
+void Body::SetSkeletonVisible(bool value) {
+  skeleton_.SetPointsVisibility(value);
+}

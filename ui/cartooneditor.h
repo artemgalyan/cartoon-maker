@@ -21,6 +21,7 @@ class CartoonEditor;
 class CartoonEditor : public QWidget {
  Q_OBJECT
  public:
+  const static QString FileExtensionName;
   explicit CartoonEditor(QWidget* parent = nullptr);
   ~CartoonEditor() override;
   void LoadFrame(const Frame& frame);

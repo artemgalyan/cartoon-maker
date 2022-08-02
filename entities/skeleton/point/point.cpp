@@ -12,10 +12,16 @@ QRectF Point::boundingRect() const {
 }
 
 void Point::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+  if (!visible_)
+    return;
   painter->save();
   QPen pen = this->GetStyle();
   painter->setPen(pen);
   painter->setBrush(QBrush(PointColor, Qt::SolidPattern));
   painter->drawEllipse(Point::boundingRect());
   painter->restore();
+}
+
+void Point::SetVisible(bool visible) {
+  visible_ = visible;
 }

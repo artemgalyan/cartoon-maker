@@ -10,7 +10,6 @@ class BodySnapshot;
 
 class Body {
  public:
-  // TODO: Add scale field
   explicit Body(const Skeleton &, QVector<Image *>, QHash<Image *, int>, QString);
   Body& operator=(const Body&) = default;
   [[nodiscard]] QString GetBodyType() const;
@@ -21,6 +20,7 @@ class Body {
   void SetVisible(bool visible);
   [[nodiscard]] bool IsVisible() const;
   [[nodiscard]] double GetZIndex() const;
+  void SetSkeletonVisible(bool value);
  private:
   static double ToDegrees(double rad);
   void ConnectImagesToPoints();

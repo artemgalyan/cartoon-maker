@@ -36,3 +36,11 @@ double BodySnapshot::GetScale() const {
 void BodySnapshot::SetScale(double scale) {
   skeleton_.SetScale(scale);
 }
+
+QDataStream& operator>>(QDataStream& ds, BodySnapshot& s) {
+  return ds >> s.isVisible_ >> s.skeleton_;
+}
+
+QDataStream& operator<<(QDataStream& ds, const BodySnapshot& s) {
+  return ds << s.isVisible_ << s.skeleton_;
+}

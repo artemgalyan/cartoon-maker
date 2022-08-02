@@ -62,3 +62,12 @@ void Skeleton::LoadSnapshot(const SkeletonSnapshot& snapshot) {
 double Skeleton::GetScale() const {
   return GetMainPoint()->scale();
 }
+
+void Skeleton::SetPointsVisibility(bool value) {
+  GetMainPoint()->SetVisible(value);
+  for (int i = 1; i < points_.count(); ++i) {
+    points_[i]->SetVisible(value);
+    auto p = dynamic_cast<SidePoint*>(points_[i]);
+    p->UpdateLineToParent();
+  }
+}

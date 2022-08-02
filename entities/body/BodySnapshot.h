@@ -6,6 +6,7 @@
 
 class BodySnapshot {
  public:
+  explicit BodySnapshot() = default;
   explicit BodySnapshot(const Body&);
   BodySnapshot(SkeletonSnapshot  skeleton, bool is_visible);
   [[nodiscard]] SkeletonSnapshot GetSkeleton() const;
@@ -15,6 +16,8 @@ class BodySnapshot {
   void SetZIndex(double z);
   [[nodiscard]] double GetScale() const;
   void SetScale(double scale);
+  friend QDataStream& operator>>(QDataStream&, BodySnapshot&);
+  friend QDataStream& operator<<(QDataStream&, const BodySnapshot&);
  private:
   SkeletonSnapshot skeleton_;
   bool isVisible_ = true;

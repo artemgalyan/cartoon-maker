@@ -63,6 +63,7 @@ void SidePoint::UpdatePos() {
 }
 
 void SidePoint::UpdateLineToParent() {
+  line_to_parent_->setVisible(visible_);
   line_to_parent_->setLine(QLineF(QPointF(0, 0), pos()));
 }
 

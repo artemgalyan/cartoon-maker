@@ -10,8 +10,12 @@
 #include <QKeyCombination>
 #include <QAbstractButton>
 #include <QScrollBar>
-#include <QParallelAnimationGroup>
-CartoonEditor::CartoonEditor(QWidget *parent) :
+#include <QFileDialog>
+#include <QMessageBox>
+
+const QString CartoonEditor::FileExtensionName = ".cartoon";
+
+CartoonEditor::CartoonEditor(QWidget* parent) :
     QWidget(parent),
     ui_(new Ui::CartoonEditor) {
   ui_->setupUi(this);
@@ -22,21 +26,9 @@ CartoonEditor::CartoonEditor(QWidget *parent) :
   SetupStyles();
   QTimer::singleShot(100, [this] { AddFrame(); });
 }
-/*parallel_animation_group = new QParallelAnimationGroup(cartoon_scene_);
-
-  animationGroup->addPause(1000);
-  animator_ = new Animator(cartoon_scene_, frames_);
-  auto map_ = animator_->GetPropertiesMap();
-  for (QMap<int, QVector<QPropertyAnimation *>>::iterator it = map_.begin(); it != map_.end(); ++it) {
-    auto groupProperties = it.value();
-    QSequentialAnimationGroup *currentAnimationGroup = new QSequentialAnimationGroup(cartoon_scene_);
-    for (int i = 0; i < groupProperties.size(); i++) {
-      currentAnimationGroup->addAnimation(groupProperties[i]);
-    }
-    parallel_animation_group->addAnimation(currentAnimationGroup);*/
 
 void CartoonEditor::MakeConnects() {
-  auto scene = dynamic_cast<CartoonScene *>(ui_->graphicsView->scene());
+  auto scene = dynamic_cast<CartoonScene*>(ui_->graphicsView->scene());
   if (scene == nullptr) {
     throw std::logic_error("Scene is not CartoonScene*");
   }
@@ -74,7 +66,7 @@ CartoonEditor::~CartoonEditor() {
   delete ui_;
 }
 
-void CartoonEditor::LoadFrame(const Frame &frame) {
+void CartoonEditor::LoadFrame(const Frame& frame) {
   cartoon_scene_->LoadFrame(frame);
   UpdateFrame();
 }
@@ -104,12 +96,12 @@ void CartoonEditor::SwitchToFrame(int index) {
   LoadFrame(frames_[current_frame_]);
 }
 
-void CartoonEditor::resizeEvent(QResizeEvent *event) {
+void CartoonEditor::resizeEvent(QResizeEvent* event) {
   ui_->graphicsView->scene()->setSceneRect(0, 0, ui_->graphicsView->width(), ui_->graphicsView->height());
   QWidget::resizeEvent(event);
 }
 
-void CartoonEditor::AddBody(Body *b) {
+void CartoonEditor::AddBody(Body* b) {
   cartoon_scene_->AddBody(b);
   BodySnapshot added_body(*b);
   b->AddTo(ui_->graphicsView->scene());
@@ -135,14 +127,14 @@ void CartoonEditor::Restore() {
   if (snapshot.frames.count() != snapshot.images.count()) {
     return;
   }
-  for (const auto &image : snapshot.images) {
+  for (const auto& image : snapshot.images) {
     frame_widget_->AddFrame(image);
   }
   current_frame_ = snapshot.current_frame;
   LoadFrame(frames_[current_frame_]);
 }
 
-void CartoonEditor::keyPressEvent(QKeyEvent *event) {
+void CartoonEditor::keyPressEvent(QKeyEvent* event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
   }
@@ -198,11 +190,29 @@ void CartoonEditor::DeleteFrame() {
 }
 
 void CartoonEditor::SaveCartoon() {
-  // TODO: Implement the method
+  QString save_file_path = QFileDialog::getSaveFileName(this, "Save cartoon", "", "*" + FileExtensionName);
+  QFile save_file(save_file_path);
+  if (!save_file.open(QIODevice::WriteOnly)) {
+    QMessageBox::critical(this, "Failed to save cartoon!", "Failed to save cartoon to path " + save_file_path);
+    return;
+  }
+  QDataStream stream(&save_file);
+  stream << ExportCartoon();
+  save_file.close();
 }
 
 void CartoonEditor::LoadCartoon() {
-  // TODO: Implement the method
+  QString open_file_path = QFileDialog::getOpenFileName(this, "Open cartoon", "", "*" + FileExtensionName);
+  QFile save_file(open_file_path);
+  if (!save_file.open(QIODevice::ReadOnly)) {
+    QMessageBox::critical(this, "Failed to load cartoon!", "Failed to load cartoon to path " + open_file_path);
+    return;
+  }
+  QDataStream stream(&save_file);
+  Cartoon c = ExportCartoon();
+  stream >> c;
+  LoadCartoon(c);
+  save_file.close();
 }
 
 void CartoonEditor::Clear() {
@@ -214,7 +224,7 @@ void CartoonEditor::Clear() {
 
 CartoonEditorSnapshot CartoonEditor::GetSnapshot() const {
   int number_of_bodies = cartoon_scene_->GetBodies().count();
-  const auto &images = frame_widget_->GetImages();
+  const auto& images = frame_widget_->GetImages();
   return {current_frame_, number_of_bodies, frames_, images};
 }
 
@@ -222,11 +232,11 @@ Cartoon CartoonEditor::ExportCartoon() const {
   return Cartoon(cartoon_scene_->GetEntitiesNameList(), frames_);
 }
 
-void CartoonEditor::LoadCartoon(const Cartoon &cartoon) {
+void CartoonEditor::LoadCartoon(const Cartoon& cartoon) {
   Clear();
   auto factory = BodyFactory::Instance();
   auto bodies_list = cartoon.GetEntities();
-  for (const auto &body : bodies_list) {
+  for (const auto& body : bodies_list) {
     auto b = factory->CreateByType(body);
     cartoon_scene_->AddBody(b);
     b->AddTo(cartoon_scene_);
@@ -236,6 +246,7 @@ void CartoonEditor::LoadCartoon(const Cartoon &cartoon) {
     cartoon_scene_->LoadFrame(frames_[i]);
     frame_widget_->AddFrame(cartoon_scene_->GetScenePixmap());
   }
+  current_frame_ = frames_.count() - 1;
   SwitchToFrame(0);
 }
 
@@ -247,11 +258,14 @@ void CartoonEditor::SetAllEnabled(bool value) {
   ui_->SaveCartoonButton->setEnabled(value);
   ui_->PlayButton->setEnabled(value);
   ui_->LoadCartoonButton->setEnabled(value);
-
+  const auto& bodies = cartoon_scene_->GetBodies();
+  for (auto body: bodies) {
+    body->SetSkeletonVisible(value);
+  }
 }
 
 void CartoonEditor::AnimationFinished() {
   SetAllEnabled(true);
-  current_frame_= frames_.count()-1;
+  current_frame_ = frames_.count() - 1;
   LoadFrame(frames_.last());
 }

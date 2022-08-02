@@ -16,6 +16,9 @@ class Point : public QGraphicsObject {
   [[nodiscard]] QRectF boundingRect() const override;
   virtual Point *Clone(Point *parent) const = 0;
   [[nodiscard]] virtual PointSnapshot CreateSnapshot() const = 0;
+  void SetVisible(bool visible);
+ protected:
+  bool visible_ = true;
  private:
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
   [[nodiscard]] virtual QPen GetStyle() const = 0;

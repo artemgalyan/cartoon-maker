@@ -27,3 +27,11 @@ void SkeletonSnapshot::SetZIndex(double z) {
 void SkeletonSnapshot::SetScale(double s) {
   scale_ = s;
 }
+
+QDataStream& operator>>(QDataStream& ds, SkeletonSnapshot& s) {
+  return ds >> s.zIndex_ >> s.scale_ >> s.snapshots_;
+}
+
+QDataStream& operator<<(QDataStream& ds, const SkeletonSnapshot& s) {
+  return ds << s.zIndex_ << s.scale_ << s.snapshots_;
+}

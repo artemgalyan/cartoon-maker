@@ -10,3 +10,11 @@ const QVector<QString> &Cartoon::GetEntities() const {
 const QVector<Frame> &Cartoon::GetFrames() const {
   return frames_;
 }
+
+QDataStream& operator>>(QDataStream& ds, Cartoon& c) {
+  return ds >> c.entities_ >> c.frames_;
+}
+
+QDataStream& operator<<(QDataStream& ds, const Cartoon& c) {
+  return ds << c.entities_ << c.frames_;
+}
