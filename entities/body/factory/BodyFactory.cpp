@@ -58,15 +58,13 @@ void BodyFactory::LoadModelByType(const QString& subDirName) {
         if (p != nullptr) {
           auto parent_point = dynamic_cast<SidePoint*>(points[parent]);
           if (parent_point != nullptr) {
-            auto index = parent_point->childItems().indexOf(p);
-            parent_point->AddMouseMoveEventListener([index, coord2](SidePoint* point) {
-              if (point->childItems().count() <= index || index < 0)
-                return;
+            parent_point->AddMouseMoveEventListener([coord2](SidePoint* point) {
               auto children = point->childItems();
               for (auto p: children) {
                 if (p->flags().testFlag(QGraphicsItem::ItemIsMovable))
                   continue;
-                if (auto p1 = dynamic_cast<SidePoint*>(p)) {
+                auto p1 = dynamic_cast<SidePoint*>(p);
+                if (p1 != nullptr) {
                   p1->SetAngle(point->GetAngle() + qDegreesToRadians(coord2));
                 }
               }
