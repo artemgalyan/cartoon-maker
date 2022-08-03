@@ -51,8 +51,9 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       in >> parent;
       if (parent == -1) points.push_back(new MainPoint(coord1, coord2));
       else points.push_back(new SidePoint(coord1, qDegreesToRadians(coord2), points[parent]));
+      QString ends = in.readLine();
+      points.last()->setFlag(QGraphicsItem::ItemIsMovable, !ends.startsWith(" fixed"));
       --lineBlock;
-      in.readLine();
     }
     Skeleton skeleton(points);
 

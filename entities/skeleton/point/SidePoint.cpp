@@ -50,7 +50,9 @@ QPen SidePoint::GetStyle() const {
 }
 
 Point *SidePoint::Clone(Point *parent) const {
-  return new SidePoint(radius_, angle_, parent);
+  auto result = new SidePoint(radius_, angle_, parent);
+  result->setFlag(QGraphicsItem::ItemIsMovable, flags().testFlag(QGraphicsItem::ItemIsMovable));
+  return result;
 }
 
 void SidePoint::SetAngle(double angle) {
