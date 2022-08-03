@@ -10,6 +10,9 @@
         <file>res/models/Pig/leg.png</file>
         <file>res/models/Pig/skeleton.txt</file>
         <file>res/models/Pig/preview.png</file>
+        <file>res/models/UFO/preview.png</file>
+        <file>res/models/UFO/pic.png</file>
+        <file>res/models/UFO/skeleton.txt</file>
         <file>res/models/Bug/1.png</file>
         <file>res/models/Bug/2.png</file>
         <file>res/models/Bug/3.png</file>
