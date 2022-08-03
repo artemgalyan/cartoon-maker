@@ -42,5 +42,15 @@
         <file>res/icons/menudelete.png</file>
         <file>res/icons/placefront.png</file>
         <file>res/icons/placeback.png</file>
+        <file>res/icons/icon.png</file>
+        <file>res/models/Water/picture.png</file>
+        <file>res/models/Water/preview.png</file>
+        <file>res/models/Water/skeleton.txt</file>
+        <file>res/models/Goldfish/picture.png</file>
+        <file>res/models/Goldfish/preview.png</file>
+        <file>res/models/Goldfish/skeleton.txt</file>
+        <file>res/models/Octopus/picture.png</file>
+        <file>res/models/Octopus/preview.png</file>
+        <file>res/models/Octopus/skeleton.txt</file>
     </qresource>
 </RCC>
