@@ -52,6 +52,9 @@ QPen SidePoint::GetStyle() const {
 Point *SidePoint::Clone(Point *parent) const {
   auto result = new SidePoint(radius_, angle_, parent);
   result->setFlag(QGraphicsItem::ItemIsMovable, flags().testFlag(QGraphicsItem::ItemIsMovable));
+  for (const auto& listener: listeners_) {
+    result->AddMouseMoveEventListener(listener);
+  }
   return result;
 }
 

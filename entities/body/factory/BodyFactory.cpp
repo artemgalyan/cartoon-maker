@@ -1,13 +1,13 @@
 #include "BodyFactory.h"
 #include "QFile"
 
-BodyFactory *BodyFactory::instance_ = nullptr;
+BodyFactory* BodyFactory::instance_ = nullptr;
 
 BodyFactory::BodyFactory() {
   LoadModels();
 }
 
-BodyFactory *BodyFactory::Instance() {
+BodyFactory* BodyFactory::Instance() {
   if (instance_ == nullptr) {
     instance_ = new BodyFactory();
   }
@@ -27,15 +27,15 @@ void BodyFactory::LoadModels() {
   }
 }
 
-Body *BodyFactory::CreateByType(const QString &type) const {
-  for (const auto &model : models_) {
+Body* BodyFactory::CreateByType(const QString& type) const {
+  for (const auto& model : models_) {
     if (model.GetBodyType() == type)
       return model.Clone();
   }
   return nullptr;
 }
 
-void BodyFactory::LoadModelByType(const QString &subDirName) {
+void BodyFactory::LoadModelByType(const QString& subDirName) {
   QString fileName = subDirName + "/skeleton.txt";
   QFile inputFile(fileName);
   if (inputFile.open(QIODevice::ReadOnly)) {
@@ -44,7 +44,7 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
     int coord1;
     int coord2;
     int parent;
-    QVector<Point *> points;
+    QVector < Point * > points;
     while (lineBlock != 0) {
       in >> coord1;
       in >> coord2;
@@ -52,7 +52,28 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
       if (parent == -1) points.push_back(new MainPoint(coord1, coord2));
       else points.push_back(new SidePoint(coord1, qDegreesToRadians(coord2), points[parent]));
       QString ends = in.readLine();
-      points.last()->setFlag(QGraphicsItem::ItemIsMovable, !ends.startsWith(" fixed"));
+      if (ends.startsWith(" fixed")) {
+        points.last()->setFlag(QGraphicsItem::ItemIsMovable, false);
+        auto p = dynamic_cast<SidePoint*>(points.last());
+        if (p != nullptr) {
+          auto parent_point = dynamic_cast<SidePoint*>(points[parent]);
+          if (parent_point != nullptr) {
+            auto index = parent_point->childItems().indexOf(p);
+            parent_point->AddMouseMoveEventListener([index, coord2](SidePoint* point) {
+              if (point->childItems().count() <= index || index < 0)
+                return;
+              auto children = point->childItems();
+              for (auto p: children) {
+                if (p->flags().testFlag(QGraphicsItem::ItemIsMovable))
+                  continue;
+                if (auto p1 = dynamic_cast<SidePoint*>(p)) {
+                  p1->SetAngle(point->GetAngle() + qDegreesToRadians(coord2));
+                }
+              }
+            });
+          }
+        }
+      }
       --lineBlock;
     }
     Skeleton skeleton(points);
@@ -61,15 +82,15 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
     QString pointFileName;
     QPointF offset;
     int pointIndex;
-    QVector<Image *> images;
-    QHash<Image *, int> indexFromImage;
+    QVector < Image * > images;
+    QHash<Image*, int> indexFromImage;
     while (lineBlock != 0) {
       in >> pointFileName;
       in >> offset.rx();
       in >> offset.ry();
       in >> pointIndex;
       QPixmap pixmap(subDirName + "/" + pointFileName);
-      auto *image = new Image(pixmap, offset);
+      auto* image = new Image(pixmap, offset);
       images.push_back(image);
       indexFromImage.insert(image, pointIndex);
       --lineBlock;
@@ -85,7 +106,7 @@ void BodyFactory::LoadModelByType(const QString &subDirName) {
   }
 }
 
-const QVector<QPair<QString, QPixmap>> &BodyFactory::GetPreviews() const {
+const QVector<QPair<QString, QPixmap>>& BodyFactory::GetPreviews() const {
   return previews_;
 }
 
