@@ -1,13 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/models/Snake/1.png</file>
-        <file>res/models/Snake/2.png</file>
-        <file>res/models/Snake/3.png</file>
+        <file>res/models/Snake/head.png</file>
+        <file>res/models/Snake/segment.png</file>
+        <file>res/models/Snake/tail.png</file>
         <file>res/models/Snake/skeleton.txt</file>
         <file>res/models/Snake/preview.png</file>
-        <file>res/models/Pig/1.png</file>
-        <file>res/models/Pig/2.png</file>
-        <file>res/models/Pig/3.png</file>
+        <file>res/models/Pig/head.png</file>
+        <file>res/models/Pig/body.png</file>
+        <file>res/models/Pig/leg.png</file>
         <file>res/models/Pig/skeleton.txt</file>
         <file>res/models/Pig/preview.png</file>
         <file>res/models/Bug/1.png</file>
@@ -18,6 +18,12 @@
         <file>res/models/Bug/6.png</file>
         <file>res/models/Bug/preview.png</file>
         <file>res/models/Bug/skeleton.txt</file>
+        <file>res/models/Meadow/skeleton.txt</file>
+        <file>res/models/Meadow/pic.png</file>
+        <file>res/models/Meadow/preview.png</file>
+        <file>res/models/Tree/skeleton.txt</file>
+        <file>res/models/Tree/pic.png</file>
+        <file>res/models/Tree/preview.png</file>
         <file>res/styles/button/style.txt</file>
         <file>res/styles/slider/style.txt</file>
         <file>res/styles/cartooneditor/style.txt</file>
