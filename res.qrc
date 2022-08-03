@@ -13,6 +13,11 @@
         <file>res/models/UFO/preview.png</file>
         <file>res/models/UFO/pic.png</file>
         <file>res/models/UFO/skeleton.txt</file>
+        <file>res/models/Tortoise/skeleton.txt</file>
+        <file>res/models/Tortoise/preview.png</file>
+        <file>res/models/Tortoise/body.png</file>
+        <file>res/models/Tortoise/leg.png</file>
+        <file>res/models/Tortoise/head.png</file>
         <file>res/models/Bug/1.png</file>
         <file>res/models/Bug/2.png</file>
         <file>res/models/Bug/3.png</file>
