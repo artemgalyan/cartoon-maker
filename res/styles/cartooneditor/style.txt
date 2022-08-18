@@ -4,9 +4,23 @@ QWidget {
 }
 
 QPushButton {
-    background: white;
-    border-radius: 10px;
+    padding:4px;
+    color: black;
+    border-radius: 15px;
+    border: 2px solid #000000;
+    background-color: gray;
     qproperty-iconSize: 35px;
+}
+
+QPushButton:hover {
+    color: gray;
+    background: #fff;
+}
+
+QPushButton:pressed {
+    color: #fff;
+    border: 2px solid #006400;
+    background: #008000;
 }
 
 QLabel {
