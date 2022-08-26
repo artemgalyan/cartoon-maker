@@ -1,7 +1,4 @@
-
-
 #include "modelview.h"
-
 #include <utility>
 #include "cartooneditor.h"
 #include "ui_ModelView.h"

@@ -1,13 +1,13 @@
-
 #ifndef CARTOON_MAKER_LOGIC_ANIMATOR_H_
 #define CARTOON_MAKER_LOGIC_ANIMATOR_H_
 
 #include <QSequentialAnimationGroup>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
+
 #include "../ui/CartoonScene.h"
+
 class Animator : public QObject {
-  // TODO: Create this class
   Q_OBJECT
  public:
   Animator(CartoonScene* cartoonScene, QVector<Frame> frames);
@@ -21,8 +21,8 @@ class Animator : public QObject {
   QSequentialAnimationGroup* MainPointProperties(MainPoint* mainPoint, int bodyIndex);
   QSequentialAnimationGroup* SidePointProperties(SidePoint* sidePoint, int bodyIndex, int pointIndex);
   QVector<Frame> frames_;
-  CartoonScene* cartoonScene_;
-  QParallelAnimationGroup* parallelAnimationGroup_;
+  CartoonScene* cartoon_scene_;
+  QParallelAnimationGroup* parallel_animation_group_;
 
 };
 

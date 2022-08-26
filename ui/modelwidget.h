@@ -20,7 +20,7 @@ class ModelWidget : public QWidget {
  protected:
   void resizeEvent(QResizeEvent *event) override;
  private:
-  QVector<ModelView*> modelViews_;
+  QVector<ModelView*> model_views_;
   Ui::ModelWidget *ui;
 };
 

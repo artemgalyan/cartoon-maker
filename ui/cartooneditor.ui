@@ -91,6 +91,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="AddFrameButton">
+           <property name="styleSheet">
+            <string notr="true"> hover { background-color: red }</string>
+           </property>
            <property name="text">
             <string>Add frame</string>
            </property>

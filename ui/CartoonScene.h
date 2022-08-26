@@ -2,6 +2,7 @@
 #define CARTOON_MAKER_UI_CARTOONSCENE_H_
 
 #include <QGraphicsScene>
+
 #include "../entities/Frame.h"
 
 class CartoonScene : public QGraphicsScene {

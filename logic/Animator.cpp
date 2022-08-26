@@ -6,28 +6,28 @@
 #include <QGraphicsOpacityEffect>
 
 Animator::Animator(CartoonScene* cartoonScene, QVector<Frame> frames)
-    : cartoonScene_(cartoonScene), frames_(std::move(frames)) {
+    : cartoon_scene_(cartoonScene), frames_(std::move(frames)) {
   MakeAnimation();
-  QObject::connect(parallelAnimationGroup_, &QAbstractAnimation::finished, [this]() {
+  QObject::connect(parallel_animation_group_, &QAbstractAnimation::finished, [this]() {
     emit this->AnimationFinished();
   });
 }
 
 void Animator::Play() {
-  parallelAnimationGroup_->start(QAbstractAnimation::DeleteWhenStopped);
+  parallel_animation_group_->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void Animator::MakeAnimation() {
-  QVector<Body*> bodiesOnScene = cartoonScene_->GetBodies();
-  parallelAnimationGroup_ = new QParallelAnimationGroup(cartoonScene_);
+  QVector<Body*> bodiesOnScene = cartoon_scene_->GetBodies();
+  parallel_animation_group_ = new QParallelAnimationGroup(cartoon_scene_);
   for (int i = 0; i < bodiesOnScene.size(); i++) {
     Body* body = bodiesOnScene[i];
-    parallelAnimationGroup_->addAnimation(SkeletonProperties(body, i));
+    parallel_animation_group_->addAnimation(SkeletonProperties(body, i));
   }
 }
 
 QParallelAnimationGroup* Animator::SkeletonProperties(Body* body, int bodyIndex) {
-  QParallelAnimationGroup* parallelAnimation = new QParallelAnimationGroup(cartoonScene_);
+  QParallelAnimationGroup* parallelAnimation = new QParallelAnimationGroup(cartoon_scene_);
   QVector<Point*> SkeletonOfPoints = body->GetSkeleton().GetPoints();
   MainPoint* mainPoint = body->GetSkeleton().GetMainPoint();
   parallelAnimation->addAnimation(MainPointProperties(mainPoint, bodyIndex));
@@ -39,9 +39,9 @@ QParallelAnimationGroup* Animator::SkeletonProperties(Body* body, int bodyIndex)
 
 QSequentialAnimationGroup* Animator::MainPointProperties(MainPoint* mainPoint,
                                                          int bodyIndex) {
-  QSequentialAnimationGroup* sequantialAnimation = new QSequentialAnimationGroup(cartoonScene_);
+  QSequentialAnimationGroup* sequantialAnimation = new QSequentialAnimationGroup(cartoon_scene_);
   for (int i = 0; i < frames_.size() - 1; i++) {
-    QParallelAnimationGroup* parallelAnimation = new QParallelAnimationGroup(cartoonScene_);
+    QParallelAnimationGroup* parallelAnimation = new QParallelAnimationGroup(cartoon_scene_);
     PointSnapshot startPoint = frames_[i].GetSnapshots()[bodyIndex].GetSkeleton().GetPointSnapshots()[0];
     PointSnapshot endPoint = frames_[i + 1].GetSnapshots()[bodyIndex].GetSkeleton().GetPointSnapshots()[0];
     auto* posAnimation = new QPropertyAnimation(mainPoint, "pos");
@@ -59,7 +59,6 @@ QSequentialAnimationGroup* Animator::MainPointProperties(MainPoint* mainPoint,
     scaleAnimation->setEndValue(endScale);
     parallelAnimation->addAnimation(scaleAnimation);
 
-    // TODO: Animate z-value;
     auto* zValueAnimation = new QPropertyAnimation(mainPoint, "z");
     double startValue = frames_[i].GetSnapshots()[bodyIndex].GetZIndex();
     double endValue = frames_[i + 1].GetSnapshots()[bodyIndex].GetZIndex();
@@ -81,7 +80,7 @@ QSequentialAnimationGroup* Animator::MainPointProperties(MainPoint* mainPoint,
 QSequentialAnimationGroup* Animator::SidePointProperties(SidePoint* sidePoint,
                                                          int bodyIndex,
                                                          int pointIndex) {
-  QSequentialAnimationGroup* sequantialAnimation = new QSequentialAnimationGroup(cartoonScene_);
+  QSequentialAnimationGroup* sequantialAnimation = new QSequentialAnimationGroup(cartoon_scene_);
   for (int i = 0; i < frames_.size() - 1; i++) {
     auto* angleAnimation = new QPropertyAnimation(sidePoint, "angle");
     PointSnapshot startPoint = frames_[i].GetSnapshots()[bodyIndex].GetSkeleton().GetPointSnapshots()[pointIndex];

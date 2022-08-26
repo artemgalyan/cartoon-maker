@@ -1,9 +1,8 @@
 #include "framewidget.h"
 #include "ui_framewidget.h"
+#include "frameview.h"
 
 #include <QVBoxLayout>
-
-#include "frameview.h"
 
 FrameWidget::FrameWidget(QVector<QPixmap> images, QWidget *parent) :
     images_(std::move(images)),

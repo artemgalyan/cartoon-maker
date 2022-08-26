@@ -1,8 +1,5 @@
 #include "Body.h"
-#include "../skeleton/point/SidePoint.h"
-
 #include "BodySnapshot.h"
-#include "../skeleton/Skeleton.h"
 
 #include <utility>
 #include <QGraphicsPixmapItem>
@@ -20,8 +17,8 @@ void Body::AddTo(QGraphicsScene *scene) const {
 }
 
 Body::Body(const Skeleton& skeleton, QVector<Image *> images, QHash<Image*, int> rule, QString type)
-  : skeleton_(skeleton), images_(std::move(images)), indexFromImage_(std::move(rule)), type_(std::move(type)) {
-  indexFromImage_.squeeze();
+  : skeleton_(skeleton), images_(std::move(images)), index_from_image_(std::move(rule)), type_(std::move(type)) {
+  index_from_image_.squeeze();
   ConnectImagesToPoints();
 }
 
@@ -29,7 +26,7 @@ void Body::ConnectImagesToPoints() {
   const QVector<Point*>& points = skeleton_.GetPoints();
   for (auto i = 0; i < images_.count(); ++i) {
     Image* image = images_[i];
-    int pointIndex = indexFromImage_[image];
+    int pointIndex = index_from_image_[image];
     auto point = dynamic_cast<SidePoint*>(points[pointIndex]);
     auto item = new QGraphicsPixmapItem(image->GetImage(), point->parentItem());
     item->setOffset(image->GetOffset());
@@ -48,7 +45,7 @@ double Body::ToDegrees(double rad) {
 
 Body *Body::Clone() const {
   auto newSkeleton = skeleton_.Clone();
-  return new Body(newSkeleton, images_, indexFromImage_, type_);
+  return new Body(newSkeleton, images_, index_from_image_, type_);
 }
 
 void Body::LoadSnapshot(const BodySnapshot &snapshot) {

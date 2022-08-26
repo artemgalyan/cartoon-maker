@@ -26,7 +26,7 @@ class Body {
   void ConnectImagesToPoints();
   Skeleton skeleton_;
   QVector<Image *> images_;
-  QHash<Image *, int> indexFromImage_;
+  QHash<Image *, int> index_from_image_;
   QString type_;
 };
 

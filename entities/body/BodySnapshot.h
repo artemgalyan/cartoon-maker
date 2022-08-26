@@ -20,7 +20,7 @@ class BodySnapshot {
   friend QDataStream& operator<<(QDataStream&, const BodySnapshot&);
  private:
   SkeletonSnapshot skeleton_;
-  bool isVisible_ = true;
+  bool is_visible_ = true;
 };
 
 #endif //CARTOON_MAKER_ENTITIES_BODY_BODYSNAPSHOT_H_
