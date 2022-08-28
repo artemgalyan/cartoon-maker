@@ -37,5 +37,10 @@ cmake-build-debug/
 #IDEA
 .idea/
 
+#VS
+out/
+.vs/
+CMakeSettings.json
+
 #User files
 *.user
