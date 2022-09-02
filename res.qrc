@@ -39,6 +39,9 @@
         <file>res/styles/modelswidget/style.txt</file>
         <file>res/styles/scene/style.txt</file>
         <file>res/styles/contextmenu/style.txt</file>
+        <file>res/styles/start_widget/style.txt</file>
+        <file>res/styles/start_menu_button/style.txt</file>
+        <file>res/styles/mainwindow/style.txt</file>
         <file>res/icons/playbutton.png</file>
         <file>res/icons/addbutton.png</file>
         <file>res/icons/deletebutton.png</file>
@@ -57,5 +60,6 @@
         <file>res/models/Octopus/picture.png</file>
         <file>res/models/Octopus/preview.png</file>
         <file>res/models/Octopus/skeleton.txt</file>
+        <file>res/background.png</file>
     </qresource>
 </RCC>

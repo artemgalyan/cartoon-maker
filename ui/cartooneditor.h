@@ -29,6 +29,7 @@ class CartoonEditor : public QWidget {
   void Clear();
   [[nodiscard]] Cartoon ExportCartoon() const;
   void LoadCartoon(const Cartoon&);
+  void AddFirstFrameIfNeeded();
  protected:
   void keyPressEvent(QKeyEvent* event) override;
   void resizeEvent(QResizeEvent* event) override;
@@ -41,8 +42,9 @@ class CartoonEditor : public QWidget {
   void UpdateFrame();
   void SceneChanged();
   void Play();
- private slots:
   void AnimationFinished();
+ signals:
+  void ToMainMenu();
  private:
   void SetAllEnabled(bool value);
   [[nodiscard]] CartoonEditorSnapshot GetSnapshot() const;

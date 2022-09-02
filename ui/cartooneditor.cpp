@@ -24,7 +24,6 @@ CartoonEditor::CartoonEditor(QWidget* parent) :
   SetupModelWidget();
   MakeConnects();
   SetupStyles();
-  QTimer::singleShot(100, [this] { AddFrame(); });
 }
 
 void CartoonEditor::MakeConnects() {
@@ -137,6 +136,9 @@ void CartoonEditor::Restore() {
 void CartoonEditor::keyPressEvent(QKeyEvent* event) {
   if (event->matches(QKeySequence::Undo)) {
     Restore();
+  }
+  if (event->key() == Qt::Key::Key_Escape) {
+    emit ToMainMenu();
   }
   QWidget::keyPressEvent(event);
 }
@@ -268,4 +270,9 @@ void CartoonEditor::AnimationFinished() {
   SetAllEnabled(true);
   current_frame_ = frames_.count() - 1;
   LoadFrame(frames_.last());
+}
+
+void CartoonEditor::AddFirstFrameIfNeeded() {
+  if (frames_.isEmpty())
+    AddFrame();
 }
