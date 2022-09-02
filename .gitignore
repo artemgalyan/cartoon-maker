@@ -36,6 +36,8 @@ cmake-build-debug/
 
 #IDEA
 .idea/
+.qt/
+CMakeFiles/
 
 #VS
 out/
