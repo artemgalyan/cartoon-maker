@@ -52,10 +52,21 @@ const QVector<Body*>& CartoonScene::GetBodies() const {
 }
 
 void CartoonScene::LeaveNFirstBodiesOnTheScene(int n) {
+  if (bodies_.count() < n || bodies_.count() == 0) {
+    return;
+  }
+  if (n == 0) {
+    for (auto body: bodies_) {
+      body->SetVisible(false);
+      delete body;
+    }
+    bodies_.clear();
+    return;
+  }
   auto index = n;
   while (index != bodies_.count()) {
-    bodies_[index]->SetVisible(false);
-    delete bodies_[index];
+    bodies_[index - 1]->SetVisible(false);
+    delete bodies_[index - 1];
     bodies_.remove(index);
   }
 }
