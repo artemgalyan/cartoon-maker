@@ -1,7 +1,7 @@
 #include "modelview.h"
 #include <utility>
 #include "cartooneditor.h"
-#include "ui_ModelView.h"
+#include "ui_modelview.h"
 #include "../entities/body/factory/BodyFactory.h"
 
 ModelView::~ModelView() {

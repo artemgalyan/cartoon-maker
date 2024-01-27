@@ -1,7 +1,7 @@
 #include <QVBoxLayout>
 
 #include "modelwidget.h"
-#include "ui_ModelWidget.h"
+#include "ui_modelwidget.h"
 
 #include "modelview.h"
 

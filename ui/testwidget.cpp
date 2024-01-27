@@ -1,5 +1,5 @@
 #include "testwidget.h"
-#include "ui_TestWidget.h"
+#include "ui_testwidget.h"
 
 #include "../entities/body/factory/BodyFactory.h"
 

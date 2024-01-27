@@ -2,7 +2,7 @@
 #include <QPainter>
 
 #include "startwidget.h"
-#include "ui_StartWidget.h"
+#include "ui_startwidget.h"
 #include "../../logic/factory/StyleManager.h"
 
 StartWidget::StartWidget(QWidget* parent) :
